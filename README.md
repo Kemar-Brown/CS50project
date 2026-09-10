@@ -45,4 +45,14 @@ Below we have some blocked text
 
 In this script we have some `Variable` and `string` values
 
+| 🟦 Category | 🟦 Details | 🟦 Status |
+| :--- | :--- | :--- |
+| Item A | Description A | Completed |
+| Item B | Description B | Pending |
+
+
+|amount|category|date|description|
+|---|---|---|---|
+|50|rent|2026-09-14|where we live|
+
 - first time
