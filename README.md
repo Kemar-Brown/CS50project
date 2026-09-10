@@ -12,11 +12,11 @@ After some reading we considered doing a finance tracker which could
 ### Creating classes
 We utilized object oriented programming to set up two classes which we will use in the project
 
-The first class we called Transaction with  values for
+The first class we called Transaction with  attributes:
 - amount
-- category type the transaction is attached to
-- date on which the transaction was made
-- short description of the transaction
+- category (type the transaction is attached to)
+- date (on which the transaction was made)
+- description (short of the transaction)
 
 ```python
 class Transaction:
@@ -26,6 +26,9 @@ class Transaction:
         self.date = date
         self.description = description
 ```
+
+Them we set up the class FinanceTracker. We set up the functions for 
+- ad
 
 ```python
 class FinanceTracker:
