@@ -2,8 +2,30 @@
 
 ## Figuring out what project to do
 
-After some reading we considered doing a finance tracker 
+After some reading we considered doing a finance tracker which could 
+- add transactions and reliably save to a csv file
+- prepare a monthly summary of transactions
+- generate a graphical report
 
+## Steps
+
+### Creating classes
+We utilized object oriented programming to set up two classes which we will use in the project
+
+The first class we called Transaction with  values for
+- amount
+- category type the transaction is attached to
+- date on which the transaction was made
+- short description of the transaction
+
+```python
+class Transaction:
+    def __init__(self, amount, category, date, description=""):
+        self.amount = amount
+        self.category = category
+        self.date = date
+        self.description = description
+```
 
 ```python
 class FinanceTracker:
