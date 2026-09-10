@@ -1,10 +1,9 @@
-# CS50project
+# CS50project Finance Tracker
 
-## Project
+## Figuring out what project to do
 
-mire time with two line breaks
+After some reading we considered doing a finance tracker 
 
-- first time
 
 ```python
 class FinanceTracker:
@@ -19,4 +18,9 @@ class FinanceTracker:
 
 This is being done *in a crazy* way to **TEST**
 
-`Variable`
+Below we have some blocked text
+> This text is indented 
+
+In this script we have some `Variable` and `string` values
+
+- first time
