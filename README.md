@@ -27,9 +27,11 @@ class Transaction:
         self.description = description
 ```
 
-Them we set up the class FinanceTracker. We set up the functions for 
-- ad
-
+Them we set up the class FinanceTracker with several methods.  
+- add transactions (which appends the file by adding transactions
+- save_to_file (which instructs python to create the csv file if there was none present and saves the information
+  added)
+- 
 ```python
 class FinanceTracker:
     def __init__(self, filename="finance_data.csv"):
