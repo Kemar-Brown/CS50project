@@ -29,14 +29,16 @@ class Transaction:
 
 Them we set up the class FinanceTracker with several methods.  
 - add transactions (which appends the file by adding transactions
-```
+  
+``` python
 def add_transaction(self, transaction):
         self.transactions.append(transaction)
 ```
 
 - save_to_file (which instructs python to create the csv file if there was none present and saves the information
   added)
-```
+  
+```python
 def save_to_file(self):
         with open(self.filename, "w", newline="") as file:
             writer = csv.writer(file)
@@ -45,7 +47,8 @@ def save_to_file(self):
 ```
 
 - load_from file (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
-```
+
+```python
 def load_from_file(self):
         try:
             with open(self.filename, "r") as file:
@@ -57,7 +60,37 @@ def load_from_file(self):
             print("No existing file found. Starting fresh.")
 ```
 
-- monthly summary
+- monthly summary (which give you a string statement telling how much money a person earned over the month and also an alert
+  if it went over that amount.
+  
+```python
+def monthly_summary(self, month):
+        total = 0
+        for t in self.transactions:
+            if t.date.startswith(month):  # e.g., "2026-09"
+                total += t.amount
+        if total > 1000:
+            print("⚠️ Alert: You spent over $1000 this month!")
+        print(f"Total spent in {month}: ${total:.2f}")
+```
+
+- generate report (which prepares a graph to represent the data.)
+> [!IMPORTANT]
+>```flowchart LR
+>    If there are no transactions, it will state no transactions to report
+>```
+
+``` python
+def generate_report(self):
+        if not self.transactions:
+            print("No transactions to report.")
+            return
+        df = pd.DataFrame([vars(t) for t in self.transactions])
+        print(df.groupby("category")["amount"].sum())
+        df.groupby("category")["amount"].sum().plot(kind="bar")
+        plt.show()
+```
+- 
 ```python
 class FinanceTracker:
     def __init__(self, filename="finance_data.csv"):
@@ -73,6 +106,23 @@ This is being done *in a crazy* way to **TEST**
 
 Below we have some blocked text
 > This text is indented 
+
+> [!IMPORTANT]
+>```flowchart LR
+>    I love the work I am doing
+>```
+>
+> ```mermaid
+flowchart LR
+    browser([Browser]) --> web
+    subgraph frontend
+      web[web<br/>Astro SSR + React islands]
+    end
+    ...
+```
+
+If we want to bold and underline we can use this
+## Trust the Process
 
 In this script we have some `Variable` and `string` values
 
