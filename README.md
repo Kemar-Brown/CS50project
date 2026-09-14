@@ -29,9 +29,35 @@ class Transaction:
 
 Them we set up the class FinanceTracker with several methods.  
 - add transactions (which appends the file by adding transactions
+```
+def add_transaction(self, transaction):
+        self.transactions.append(transaction)
+```
+
 - save_to_file (which instructs python to create the csv file if there was none present and saves the information
   added)
-- 
+```
+def save_to_file(self):
+        with open(self.filename, "w", newline="") as file:
+            writer = csv.writer(file)
+            for t in self.transactions:
+                writer.writerow([t.amount, t.category, t.date, t.description])
+```
+
+- load_from file (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
+```
+def load_from_file(self):
+        try:
+            with open(self.filename, "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    amount, category, date, description = row
+                    self.transactions.append(Transaction(float(amount), category, date, description))
+        except FileNotFoundError:
+            print("No existing file found. Starting fresh.")
+```
+
+- monthly summary
 ```python
 class FinanceTracker:
     def __init__(self, filename="finance_data.csv"):
