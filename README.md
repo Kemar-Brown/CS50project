@@ -130,6 +130,18 @@ flowchart LR
     ...
 ```
 
+# Expense Tracker
+
+This section shows a sample record of expenses stored in table format.
+
+| amount | category | date       | description   |
+|--------|----------|------------|---------------|
+| 50     | rent     | 2026-09-14 | where we live |
+
+> 💡 Tip: You can add more rows for additional expenses.
+
+
+
 | amount | category | date       | description   |
 |--------|----------|------------|---------------|
 | 50     | rent     | 2026-09-14 | where we live |
