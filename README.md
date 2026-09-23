@@ -136,7 +136,7 @@ If we want to bold and underline we can use this
 In this script we have some `Variable` and `string` values
 
 | 🟦 Category | 🟦 Details | 🟦 Status |
-| :--- | :--- | :--- |
+| --- | --- | --- |
 | Item A | Description A | Completed |
 | Item B | Description B | Pending |
 
