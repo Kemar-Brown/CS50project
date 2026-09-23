@@ -130,6 +130,12 @@ flowchart LR
     ...
 ```
 
+| amount | category | date       | description   |
+|--------|----------|------------|---------------|
+| 50     | rent     | 2026-09-14 | where we live |
+
+
+
 If we want to bold and underline we can use this
 ## Trust the Process
 
