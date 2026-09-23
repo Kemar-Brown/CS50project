@@ -113,54 +113,73 @@ class FinanceTracker:
 
 This is being done *in a crazy* way to **TEST**
 
+## Expense Tracker
+This section shows a sample record of expenses stored in table format.
+
+
+| 🟦 Category | 🟦 Details | 🟦 Status |
+| --- | --- | --- |
+| rent| 50 | 2026-09-14 |
+> 💡 Tip: You can add more rows for additional expenses.
+
+## Sample of Expense Flowchart
+
+```mermaid
+flowchart LR
+    A[Income] --> B[Expenses]
+    B --> C[Rent]
+    B --> D[Food]
+    B --> E[Utilities]
+    B --> F[Transport]
+
+    subgraph TransportGroup
+        F[Transport]
+        G[Car]
+    end
+
+```
+
+
 Below we have some blocked text
 > This text is indented 
 
-> [!IMPORTANT]
->```flowchart LR
->    I love the work I am doing
->```
->
-> ```mermaid
+## Sample 2 of Expense Flowchart
+
+```mermaid
 flowchart LR
-    browser([Browser]) --> web
-    subgraph frontend
-      web[web<br/>Astro SSR + React islands]
-    end
-    ...
+    A[Income] --> B[Expenses]
+    B --> C[Rent]
+    B --> D[Food]
+    B --> E[Utilities]
+    B --> F[Transport]
+    F --> G[Car]
 ```
 
-# Expense Tracker
+> [!NOTE]
+> This is a general note.
 
-This section shows a sample record of expenses stored in table format.
+> [!TIP]
+> 💡 Helpful hint goes here.
 
-| amount | category | date       | description   |
-|--------|----------|------------|---------------|
-| 50     | rent     | 2026-09-14 | where we live |
+> [!IMPORTANT]
+> ⚠️ Critical instruction you must follow.
 
-> 💡 Tip: You can add more rows for additional expenses.
+> [!WARNING]
+> 🚨 Be careful — this could cause issues.
+
+A polished README often mixes tables, flowcharts, and callouts. For example, you could put your expense table, then add a [!IMPORTANT]
+
+>```
+>    I love the work I am doing
+>```
 
 
-
-| amount | category | date       | description   |
-|--------|----------|------------|---------------|
-| 50     | rent     | 2026-09-14 | where we live |
-
-
+In this script we have some `Variable` and `string` values
 
 If we want to bold and underline we can use this
 ## Trust the Process
 
 In this script we have some `Variable` and `string` values
-
-
-| 🟦 Category | 🟦 Details | 🟦 Status |
-| --- | --- | --- |
-| Item A | Description A | Completed |
-| Item B | Description B | Pending |
-
-
-
 
 
 - first time
