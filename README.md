@@ -90,7 +90,7 @@ def generate_report(self):
         df.groupby("category")["amount"].sum().plot(kind="bar")
         plt.show()
 ```
-- 
+- We then defined the function to validate data using 
 ```python
 class FinanceTracker:
     def __init__(self, filename="finance_data.csv"):
