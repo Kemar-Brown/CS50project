@@ -141,7 +141,7 @@ In this script we have some `Variable` and `string` values
 | Item B | Description B | Pending |
 
 
-|amount|category|date|description|
+| amount | category | date | description |
 | --- | --- | --- | --- |
 | 50 | rent | 2026-09-14 | where we live |
 
