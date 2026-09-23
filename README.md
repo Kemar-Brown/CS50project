@@ -28,6 +28,13 @@ class Transaction:
 ```
 
 Them we set up the class FinanceTracker with several methods.  
+
+```python
+class FinanceTracker:
+    def __init__(self, filename="finance_data.csv"):
+        self.filename = filename
+        self.transactions = []
+```
 - add transactions (which appends the file by adding transactions
   
 ``` python
