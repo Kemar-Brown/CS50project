@@ -101,10 +101,68 @@ def generate_report(self):
 - We then defined the function to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
 
 ```python
-class FinanceTracker:
-    def __init__(self, filename="finance_data.csv"):
-        self.filename = filename
-        self.transactions = []
+def validate_date(date_str):
+    pattern = r"^\d{4}-\d{2}-\d{2}$"
+    if not re.match(pattern, date_str):
+        raise ValueError("Date must be in YYYY-MM-DD format")
+    return date_str
+```
+
+Once we completed setting up the classes we then wrote our main function which would include all we planned to do in the expense tracker program. 
+
+In our main function we identify tracker as the class finance tracker and instruct the program use the object `load_from_file` to access information from the csv file. 
+
+```python
+def main():
+    tracker = FinanceTracker()
+    tracker.load_from_file()
+```
+
+Then we print the different options for the expense tracker and prompt the user for a choice. 
+
+``` python
+while True:
+        print("\n--- Personal Finance Tracker ---")
+        print("1. Add Transaction")
+        print("2. View Monthly Summary")
+        print("3. Generate Report")
+        print("4. Save Data")
+        print("5. Exit")
+
+        choice = input("Choose an option: ")
+```
+
+We then use use conditional IF sentences to determine the result that will happen given the option chosen.
+
+
+```mermaid
+flowchart LR
+    A[choices] --> B[Option 1]
+    A --> C[Option 2]
+    A --> D[Option 3]
+    A --> E[Option 4]
+    A --> F[Option 5]
+    B --> G[Adding a transaction]
+    C --> H[View Monthly Summary]
+    D --> I[Generate Report]
+    E --> J[Save Data]
+    F --> K[Exit]
+
+    subgraph TransactionSteps
+        L[Enter amount] --> M[Enter category]
+        M --> N[Enter valid date]
+        N --> O[Enter description]
+    end
+
+    G --> L
+```
+
+
+```mermaid
+flowchart LR
+    
+    C[Option 2] --> D[View Monthly Summary]
+    E[Option 1] --> F[Adding a transaction]
 ```
 
 [Can we have a link here](https://www.google.com/search?q=picture+of+a+dog&rlz=1C1CFYW_enJM1210JM1210&oq=picture+of+a+dog&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgcIARAAGIAEMgcIAhAAGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGIAE0gEINDE2NWowajeoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8#sv=CAMSXhoyKhBlLWR4VEJsb01XQloweENNMg5keFRCbG9NV0JaMHhDTToOSlhSb2p1RVVxYklFWE0gBCokCg41ODNmcmdyZHE2aVlGTRIQZS1keFRCbG9NV0JaMHhDTRgAMAEYByCBlczqCEoIEAEYASABKAE)
