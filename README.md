@@ -143,9 +143,6 @@ In this script we have some `Variable` and `string` values
 
 
 
-| amount | category | date | description |
-| --- | --- | --- | --- |
-| 50 | rent | 2026-09-14 | where we live |
 
 
 - first time
