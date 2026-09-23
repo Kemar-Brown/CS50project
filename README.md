@@ -98,7 +98,7 @@ def generate_report(self):
         plt.show()
 ```
 
-- We then defined the function to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the porgram to return 'data_str'.
+- We then defined the function to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
 
 ```python
 class FinanceTracker:
@@ -142,7 +142,14 @@ In this script we have some `Variable` and `string` values
 
 
 |amount|category|date|description|
-|---|---|---|---|
-|50|rent|2026-09-14|where we live|
+| --- | --- | --- | --- |
+| 50 | rent | 2026-09-14 | where we live |
 
 - first time
+
+links for videos to learn from include
+
+[learning github](https://www.youtube.com/watch?v=eJojC3lSkwg)
+
+[making a gihub rpository](https://www.youtube.com/watch?v=qNKdm8qAQfg) 
+
