@@ -90,7 +90,9 @@ def generate_report(self):
         df.groupby("category")["amount"].sum().plot(kind="bar")
         plt.show()
 ```
-- We then defined the function to validate data using a
+
+- We then defined the function to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the porgram to return 'data_str'.
+
 ```python
 class FinanceTracker:
     def __init__(self, filename="finance_data.csv"):
