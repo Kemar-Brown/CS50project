@@ -132,7 +132,51 @@ while True:
         choice = input("Choose an option: ")
 ```
 
-We then use use conditional IF sentences to determine the result that will happen given the option chosen.
+We then use use conditional IF sentences to determine the result that will happen given the option chosen. 
+
+```python
+if choice == "1":
+            try:
+                while True:
+                    try:
+                        amount = float(input("Enter amount: "))
+                        if amount < 0:
+                            print("Amount cannot be negative. Please enter a valid amount.")
+                            continue
+                        break
+                    except ValueError:
+                        print("Invalid input. Please enter a numeric value for the amount.")
+
+                    except ValueError as e:
+                        print(f"Error: {e}. Please enter a valid amount.")
+
+                category = input("Enter category (Food, Rent, etc.): ")
+                date = validate_date(input("Enter date (YYYY-MM-DD): "))
+                description = input("Enter description (optional): ")
+                tracker.add_transaction(Transaction(amount, category, date, description))
+                print("Transaction added successfully!")
+            except Exception as e:
+                print(f"An error occurred while adding the transaction: {e}")
+
+        elif choice == "2":
+            month = input("Enter month (YYYY-MM): ")
+            tracker.monthly_summary(month)
+
+        elif choice == "3":
+            tracker.generate_report()
+
+        elif choice == "4":
+            tracker.save_to_file()
+            print("Data saved successfully!")
+
+        elif choice == "5":
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid choice.Please choose a number.")
+```
+This is represented in the following flowchart. 
 
 
 ```mermaid
