@@ -110,7 +110,7 @@ def validate_date(date_str):
 
 Once we completed setting up the classes we then wrote our main function which would include all we planned to do in the expense tracker program. 
 
-In our main function we identify tracker as the class finance tracker and instruct the program use the object `load_from_file` to access information from the csv file. 
+In our `main()` function we create the object `tracker` from the class finance tracker. We then called its method `load_from_file()` to access existing information from the csv file. 
 
 ```python
 def main():
@@ -118,7 +118,7 @@ def main():
     tracker.load_from_file()
 ```
 
-Then we print the different options for the expense tracker and prompt the user for a choice. 
+We then instructed the program to print the different options for the expense tracker and prompt the user for a choice. 
 
 ``` python
 while True:
@@ -137,25 +137,36 @@ We then use use conditional IF sentences to determine the result that will happe
 
 ```mermaid
 flowchart LR
-    A[choices] --> B[Option 1]
-    A --> C[Option 2]
-    A --> D[Option 3]
-    A --> E[Option 4]
-    A --> F[Option 5]
-    B --> G[Adding a transaction]
-    C --> H[View Monthly Summary]
-    D --> I[Generate Report]
-    E --> J[Save Data]
-    F --> K[Exit]
+    A[Menu Choices] --> B[Option 1: Add Transaction]
+    A --> C[Option 2: View Monthly Summary]
+    A --> D[Option 3: Generate Report]
+    A --> E[Option 4: Save Data]
+    A --> F[Option 5: Exit]
 
+    %% Results of each option
+    B --> L
+    C --> H[Result: Monthly Summary Displayed]
+    D --> I[Result: Report Generated]
+    E --> J[Result: Data Saved to CSV]
+    F --> K[Result: Program Ends]
+
+    %% Transaction steps expanded
     subgraph TransactionSteps
         L[Enter amount] --> M[Enter category]
         M --> N[Enter valid date]
         N --> O[Enter description]
     end
 
-    G --> L
+    %% Two possible outcomes after transaction steps
+    O --> G[Result: Transaction Added Successfully]
+    O --> G2[Result: Error Message - Invalid Input]
+
+    %% Invalid choice branch
+    A --> P[Invalid choice. Please try again]
+
 ```
+
+
 
 
 
@@ -164,6 +175,9 @@ flowchart LR
 ![alt text](http://picsum.photos/200/200)
 
 This is being done *in a crazy* way to **TEST**
+
+
+
 
 ## Expense Tracker
 This section shows a sample record of expenses stored in table format.
