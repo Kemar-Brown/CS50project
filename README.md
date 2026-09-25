@@ -88,8 +88,9 @@ def generate_report(self):
 
 - We then defined several standalone functions 
     - `def monthly_summary` - this function will caclulate the total amount of money spent for the month and will return that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount.
-  
-```python
+
+
+ ```python
 def monthly_summary(self, month):
         total = 0
         for t in self.transactions:
@@ -98,11 +99,41 @@ def monthly_summary(self, month):
         if total > 100000:
             print("⚠️ Alert: You spent over $100,000 this month!")
         print(f"Total spent in {month}: ${total:.2f}")
+```   
+
+-   
+    - `def_most_spent_category` - this function totals the amount spent in a month
+    and identifies the category which carried the most expenditure. 
+
+```python
+def most_spent_category(transactions):
+    if not transactions:
+        print("No transactions available.")
+        return
+    df = pd.DataFrame([vars(t) for t in transactions])
+    totals = df.groupby("category")["amount"].sum()
+    max_category = totals.idxmax()
+    max_value = totals.max()
+    print(f"💰 Most spent on: {max_category} (${max_value:.2f})")
+```  
+
+-   
+    - `def average_daily_spend` - this function gives the average daily spend for the month
+
+```python
+def average_daily_spend(transactions):
+    if not transactions:
+        print("No transactions available.")
+        return
+    df = pd.DataFrame([vars(t) for t in transactions])
+    df["date"] = pd.to_datetime(df["date"])
+    daily_totals = df.groupby(df["date"].dt.date)["amount"].sum()
+    avg_spend = daily_totals.mean()
+    print(f"📆 Average daily spend: ${avg_spend:.2f}")
 ```
-    
 
-
-to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
+-
+    - `def validate_date` - this finction validates the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
 
 ```python
 def validate_date(date_str):
@@ -112,9 +143,9 @@ def validate_date(date_str):
     return date_str
 ```
 
-Once we completed setting up the classes we then wrote our main function which would include all we planned to do in the expense tracker program. 
+## Setting up of the main function 
 
-In our `main()` function we create the object `tracker` from the class finance tracker. We then called its method `load_from_file()` to access existing information from the csv file. 
+This includes all we planned to do in the expense tracker program. In our `main()` function we create the object `tracker` from the class finance tracker. We then called its method `load_from_file()` to access existing information from the csv file. 
 
 ```python
 def main():
@@ -126,14 +157,16 @@ We then instructed the program to print the different options for the expense tr
 
 ``` python
 while True:
-        print("\n--- Personal Finance Tracker ---")
-        print("1. Add Transaction")
-        print("2. View Monthly Summary")
-        print("3. Generate Report")
-        print("4. Save Data")
-        print("5. Exit")
+    print("\n--- Personal Finance Tracker ---")
+    print("1. Add Transaction")
+    print("2. View Monthly Summary")
+    print("3. Generate Report")
+    print("4. Save Data")
+    print("5. Exit")
+    print("6. Most Spent Category")
+    print("7. Average Daily Spend")
 
-        choice = input("Choose an option: ")
+    choice = input("Choose an option: ")
 ```
 
 We then use use conditional IF sentences to determine the result that will happen given the option chosen. 
@@ -151,9 +184,6 @@ if choice == "1":
                     except ValueError:
                         print("Invalid input. Please enter a numeric value for the amount.")
 
-                    except ValueError as e:
-                        print(f"Error: {e}. Please enter a valid amount.")
-
                 category = input("Enter category (Food, Rent, etc.): ")
                 date = validate_date(input("Enter date (YYYY-MM-DD): "))
                 description = input("Enter description (optional): ")
@@ -164,7 +194,7 @@ if choice == "1":
 
         elif choice == "2":
             month = input("Enter month (YYYY-MM): ")
-            tracker.monthly_summary(month)
+            monthly_summary(tracker.transactions, month)
 
         elif choice == "3":
             tracker.generate_report()
@@ -177,8 +207,14 @@ if choice == "1":
             print("Goodbye!")
             break
 
+        elif choice == "6":
+            most_spent_category(tracker.transactions)
+
+        elif choice == "7":
+            average_daily_spend(tracker.transactions)
+
         else:
-            print("Invalid choice.Please choose a number.")
+            print("Invalid choice. Please choose a number.")
 ```
 This is represented in the following flowchart. 
 
@@ -189,11 +225,16 @@ flowchart LR
     A --> C[Option 2: View Monthly Summary]
     A --> D[Option 3: Generate Report]
     A --> E[Option 4: Save Data]
-    A --> F[Option 5: Exit]
+    A --> C1[Option 5: Category with highest expenditure]
+    A --> C2[Calculate Average Daily Spend]
 
+    A --> F[Option 5: Exit]
+    
     %% Results of each option
     B --> L
     C --> H[Result: Monthly Summary Displayed]
+    C1 --> C3[Result: Highest Spend category displayed with amount]
+    C2 --> C4[Average Daily Spend]
     D --> I[Result: Report Generated]
     E --> J[Result: Data Saved to CSV]
     F --> K[Result: Program Ends]
