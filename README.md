@@ -5,6 +5,8 @@
 After some reading we considered doing a finance tracker which could 
 - add transactions and reliably save to a csv file
 - prepare a monthly summary of transactions
+- give specifics such as the average of the money spent and 
+the category which had the highest expenditure
 - generate a graphical report
 
 ## Steps
@@ -35,7 +37,7 @@ class FinanceTracker:
         self.filename = filename
         self.transactions = []
 ```
-- add transactions (which appends the file by adding transactions
+- add transactions (which appends the file by adding transactions)
   
 ``` python
 def add_transaction(self, transaction):
@@ -67,20 +69,6 @@ def load_from_file(self):
             print("No existing file found. Starting fresh.")
 ```
 
-- monthly summary (which give you a string statement telling how much money a person earned over the month and also an alert
-  if it went over that amount.
-  
-```python
-def monthly_summary(self, month):
-        total = 0
-        for t in self.transactions:
-            if t.date.startswith(month):  # e.g., "2026-09"
-                total += t.amount
-        if total > 1000:
-            print("⚠️ Alert: You spent over $1000 this month!")
-        print(f"Total spent in {month}: ${total:.2f}")
-```
-
 - generate report (which prepares a graph to represent the data.)
 > [!IMPORTANT]
 >```flowchart LR
@@ -98,7 +86,23 @@ def generate_report(self):
         plt.show()
 ```
 
-- We then defined the function to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
+- We then defined several standalone functions 
+    - `def monthly_summary` - this function will caclulate the total amount of money spent for the month and will return that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount.
+  
+```python
+def monthly_summary(self, month):
+        total = 0
+        for t in self.transactions:
+            if t.date.startswith(month):  # e.g., "2026-09"
+                total += t.amount
+        if total > 1000:
+            print("⚠️ Alert: You spent over $1000 this month!")
+        print(f"Total spent in {month}: ${total:.2f}")
+```
+    
+
+
+to validate the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
 
 ```python
 def validate_date(date_str):
