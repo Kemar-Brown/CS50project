@@ -95,8 +95,8 @@ def monthly_summary(self, month):
         for t in self.transactions:
             if t.date.startswith(month):  # e.g., "2026-09"
                 total += t.amount
-        if total > 1000:
-            print("⚠️ Alert: You spent over $1000 this month!")
+        if total > 100000:
+            print("⚠️ Alert: You spent over $100,000 this month!")
         print(f"Total spent in {month}: ${total:.2f}")
 ```
     
