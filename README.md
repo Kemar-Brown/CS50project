@@ -57,7 +57,7 @@ def save_to_file(self):
 
 - load_from file (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
 
-```python
+```python m
 def load_from_file(self):
         try:
             with open(self.filename, "r") as file:
@@ -71,7 +71,7 @@ def load_from_file(self):
 
 - generate report (which prepares a graph to represent the data.)
 > [!IMPORTANT]
->```flowchart LR
+>```
 >    If there are no transactions, it will state no transactions to report
 >```
 
@@ -133,7 +133,7 @@ def average_daily_spend(transactions):
 ```
 
 -
-    - `def validate_date` - this finction validates the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
+    - `def validate_date` - this function validates the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
 
 ```python
 def validate_date(date_str):
@@ -162,9 +162,9 @@ while True:
     print("2. View Monthly Summary")
     print("3. Generate Report")
     print("4. Save Data")
-    print("5. Exit")
-    print("6. Most Spent Category")
-    print("7. Average Daily Spend")
+    print("5. Most Spent Category")
+    print("6. Average Daily Spend")
+    print("7. Exit")
 
     choice = input("Choose an option: ")
 ```
@@ -204,39 +204,42 @@ if choice == "1":
             print("Data saved successfully!")
 
         elif choice == "5":
+            most_spent_category(tracker.transactions)
+
+        elif choice == "6":
+            average_daily_spend(tracker.transactions)
+
+        elif choice == "7":
             print("Goodbye!")
             break
 
-        elif choice == "6":
-            most_spent_category(tracker.transactions)
-
-        elif choice == "7":
-            average_daily_spend(tracker.transactions)
 
         else:
             print("Invalid choice. Please choose a number.")
 ```
-This is represented in the following flowchart. 
+This is represented in the following flowchart.   
 
+Average Daily Spend
+    [Result: Highest Spend category displayed with amount]
 
 ```mermaid
 flowchart LR
     A[Menu Choices] --> B[Option 1: Add Transaction]
     A --> C[Option 2: View Monthly Summary]
-    A --> D[Option 3: Generate Report]
-    A --> E[Option 4: Save Data]
-    A --> C1[Option 5: Category with highest expenditure]
-    A --> C2[Calculate Average Daily Spend]
+    A --> C1[Option 3: Generate Report]
+    A --> C2[Option 4: Save Data]
+    A --> D[Option 5: Category with highest expenditure]
+    A --> E[Option 6: Calculate Average Daily Spend ]
 
-    A --> F[Option 5: Exit]
+    A --> F[Option 7: Exit]
     
     %% Results of each option
     B --> L
     C --> H[Result: Monthly Summary Displayed]
-    C1 --> C3[Result: Highest Spend category displayed with amount]
-    C2 --> C4[Average Daily Spend]
-    D --> I[Result: Report Generated]
-    E --> J[Result: Data Saved to CSV]
+    C1 --> C3[Result: Report Generated]
+    C2 --> C4[Result: Data Saved to CSV]
+    D --> I[Result: Highest Spend category displayed with amount]
+    E --> J[Result: Average Daily Spend]
     F --> K[Result: Program Ends]
 
     %% Transaction steps expanded
