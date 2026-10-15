@@ -69,7 +69,8 @@ def load_from_file(self):
             print("No existing file found. Starting fresh.")
 ```
 
-- generate report (which prepares a graph to represent the data.)
+### We then defined several standalone functions 
+- ``def generate_report`` - this function sums the total amount spent for each category over time and then represents this on a graph. 
 > [!IMPORTANT]
 >```
 >    If there are no transactions, it will state no transactions to report
@@ -86,8 +87,8 @@ def generate_report(self):
         plt.show()
 ```
 
-- We then defined several standalone functions 
-    - `def monthly_summary` - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
+
+- ``def monthly_summary``  - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
  
 
 
