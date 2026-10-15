@@ -87,18 +87,24 @@ def generate_report(self):
 ```
 
 - We then defined several standalone functions 
-    - `def monthly_summary` - this function will caclulate the total amount of money spent for the month and will return that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount.
+    - `def monthly_summary` - this function will calculate the total amount of money spent for the month and will return that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also set the code to make the report in words for the month to make it more friendly. We used the I used the datetime library and imported the class datetime to use strftime to change from the year month format into a string with the words.
+ 
 
 
  ```python
 def monthly_summary(self, month):
-        total = 0
-        for t in self.transactions:
-            if t.date.startswith(month):  # e.g., "2026-09"
-                total += t.amount
-        if total > 100000:
-            print("⚠️ Alert: You spent over $100,000 this month!")
-        print(f"Total spent in {month}: ${total:.2f}")
+        try:
+        dt = datetime.datetime.strptime(month, "%Y-%m") 
+        month_name = dt.strftime("%B %Y")
+    except ValueError:
+        print("❌ Invalid month format. Please use YYYY-MM (e.g., 2026-09).")
+        return
+
+    total = sum(t.amount for t in transactions if t.date.startswith(month))
+    if total > 1000:
+        print(f"⚠️ Alert: You spent over $1000 in {month_name}!")
+    print(f"Total spent in {month_name}: ${total:.2f}")
+
 ```   
 
 -   
