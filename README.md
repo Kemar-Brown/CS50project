@@ -87,7 +87,7 @@ def generate_report(self):
 ```
 
 - We then defined several standalone functions 
-    - `def monthly_summary` - this function will calculate the total amount of money spent for the month and will return that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
+    - `def monthly_summary` - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
  
 
 
@@ -108,8 +108,7 @@ def monthly_summary(self, month):
 ```   
 
 -   
-    - `def_most_spent_category` - this function totals the amount spent in a month
-    and identifies the category which carried the most expenditure. 
+    - `def_most_spent_category` - this function totals the amount spent in a month and identifies the category which carried the most expenditure.  
 
 ```python
 def most_spent_category(transactions):
