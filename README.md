@@ -37,14 +37,14 @@ class FinanceTracker:
         self.filename = filename
         self.transactions = []
 ```
-- add transactions (which appends the file by adding transactions)
+- ``add transactions`` (which appends the file by adding transactions)
   
 ``` python
 def add_transaction(self, transaction):
         self.transactions.append(transaction)
 ```
 
-- save_to_file (which instructs python to create the csv file if there was none present and saves the information
+- ``save_to_file`` (which instructs python to create the csv file if there was none present and saves the information
   added)
   
 ```python
@@ -55,7 +55,7 @@ def save_to_file(self):
                 writer.writerow([t.amount, t.category, t.date, t.description])
 ```
 
-- load_from file (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
+- ``load_from file`` (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
 
 ```python m
 def load_from_file(self):
@@ -69,7 +69,7 @@ def load_from_file(self):
             print("No existing file found. Starting fresh.")
 ```
 
-### We then defined several standalone functions 
+
 - ``def generate_report`` - this function sums the total amount spent for each category over time and then represents this on a graph. 
 > [!IMPORTANT]
 >```
@@ -87,7 +87,7 @@ def generate_report(self):
         plt.show()
 ```
 
-
+### We then defined several standalone functions 
 - ``def monthly_summary``  - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
  
 
