@@ -18,7 +18,7 @@ The first class we called Transaction with  attributes:
 - amount
 - category (type the transaction is attached to)
 - date (on which the transaction was made)
-- description (short of the transaction)
+- description (short description of the transaction)
 
 ```python
 class Transaction:
@@ -43,6 +43,25 @@ class FinanceTracker:
 def add_transaction(self, transaction):
         self.transactions.append(transaction)
 ```
+- ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
+
+```python
+def delete_transaction(self, index):
+        try:
+            deleted = self.transactions.pop(index)
+
+            print(
+                f"Deleted transaction: "
+                f"{deleted.category} | "
+                f"${deleted.amount:.2f} | "
+                f"{deleted.date} | "
+                f"{deleted.description}"
+            )
+
+        except IndexError:
+            print("Invalid transaction number.")
+```
+
 
 - ``save_to_file`` (which instructs python to create the csv file if there was none present and saves the information
   added)
