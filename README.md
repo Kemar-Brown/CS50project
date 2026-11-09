@@ -95,6 +95,7 @@ def load_from_file(self):
 >    If there are no transactions, it will state no transactions to report
 >```
 
+
 ``` python
 def generate_report(self):
         if not self.transactions:
