@@ -3,11 +3,11 @@
 ## Figuring out what project to do
 
 After some reading we considered doing a finance tracker which could 
-- add transactions and reliably save to a csv file
-- prepare a monthly summary of transactions
-- give specifics such as the average of the money spent and 
-the category which had the highest expenditure
-- generate a graphical report
+- add or delete transactions and reliably save to a csv file
+- provide a monthly summary of transactions giving the sum of 
+transactions
+- give specifics such as the average daily money spent in a given time period and the category which had the highest expenditure
+- generate a graphical report for a given time period
 
 ## Steps
 
