@@ -89,7 +89,7 @@ def load_from_file(self):
 ```
 
 
-- ``def generate_report`` - this function sums the total amount spent for each category over time and then represents this on a graph. 
+- ``def generate_report`` - this function sums the total amount spent for each category over a specified requested time and then represents this on a graph. 
 > [!IMPORTANT]
 >```
 >    If there are no transactions, it will state no transactions to report
