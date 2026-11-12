@@ -97,13 +97,36 @@ def load_from_file(self):
 
 
 ``` python
-def generate_report(self):
+def generate_report(self, start_date=None, end_date=None):
         if not self.transactions:
             print("No transactions to report.")
             return
+
         df = pd.DataFrame([vars(t) for t in self.transactions])
-        print(df.groupby("category")["amount"].sum())
-        df.groupby("category")["amount"].sum().plot(kind="bar")
+        df["date"] = pd.to_datetime(df["date"])  # convert to datetime
+
+        try:
+            if start_date:
+                start_date = validate_date(start_date)  # use your standalone function
+                start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+                df = df[df["date"] >= start_date]
+            if end_date:
+                end_date = validate_date(end_date)  # use your standalone function
+                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+                df = df[df["date"] <= end_date]
+        except ValueError as e:
+            print(f"❌ {e}")
+            return
+
+        if df.empty:
+            print("No transactions in this period.")
+            return
+
+        totals = df.groupby("category")["amount"].sum()
+        print(totals)
+
+        totals.plot(kind="bar", title="Spending by Category")
+        plt.ylabel("Amount ($)")
         plt.show()
 ```
 
@@ -267,8 +290,7 @@ def monthly_summary(self, month):
     print(f"Total spent in {month_name}: ${total:.2f}")
 ```   
 
--   
-    - `def_most_spent_category` - this function totals the amount spent in a month and identifies the category which carried the most expenditure.  
+-   `def_most_spent_category` - this function totals the amount spent for all trnasactions and identifies the category which carried the most expenditure.  
 
 ```python
 def most_spent_category(transactions):
