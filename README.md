@@ -95,27 +95,31 @@ def load_from_file(self):
 >    If there are no transactions, it will state no transactions to report
 >```
 
-
+We set start_date and end_date to none to signify no limit. The function will revert to None if there is a blank input
 ``` python
 def generate_report(self, start_date=None, end_date=None):
         if not self.transactions:
             print("No transactions to report.")
             return
+```
+Then we used vars(t) to turn each transaction into a dictionary and then we used pandas to turn that list dictionaries into a dataframe (table) with each transaction in a separate row. We also converted the date column from a string to real dates so that we python can compare them. 
 
+```python
         df = pd.DataFrame([vars(t) for t in self.transactions])
         df["date"] = pd.to_datetime(df["date"])  # convert to datetime
+```
+We used several `IF` statements to handle start and end dates. We set the start date to match transactions with date values on or after the input date. For a given end date we specified values before or on the input date.  
 
-        try:
-            if start_date:
-                start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
-                df = df[df["date"] >= start_date]
-            if end_date:
-                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
-                df = df[df["date"] <= end_date]
-        except ValueError as e:
-            print(f"❌ {e}")
-            return
-
+```python
+        if start_date:
+            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            df = df[df["date"] >= start_date]
+        if end_date:
+            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            df = df[df["date"] <= end_date]
+```
+If the dataframe was empty then a message *"No transactions in this period."* was given and returns to the main menu. 
+```python
         if df.empty:
             print("No transactions in this period.")
             return
