@@ -107,11 +107,9 @@ def generate_report(self, start_date=None, end_date=None):
 
         try:
             if start_date:
-                start_date = validate_date(start_date)  # use your standalone function
                 start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
                 df = df[df["date"] >= start_date]
             if end_date:
-                end_date = validate_date(end_date)  # use your standalone function
                 end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
                 df = df[df["date"] <= end_date]
         except ValueError as e:
