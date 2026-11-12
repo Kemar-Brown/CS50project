@@ -43,7 +43,7 @@ class FinanceTracker:
 def add_transaction(self, transaction):
         self.transactions.append(transaction)
 ```
-- ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
+- ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. These index values are generated in a standalone delete_transaction_menu function (which I will talk about later) where the transactions are enumerated and displayed to the user.The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
 
 ```python
 def delete_transaction(self, index):
@@ -126,9 +126,129 @@ def validate_date(date_str):
     return date_str
 
 ```
+- `def delete_transaction_menu` - Then we set up a delete_transaction_menu function. If there are no transactions in the tracker, we use an if not statement to print the message "No transactions available" and exit the function.
+We then created a while loop with several conditionals. An if statement allows the user to leave the function at any time by typing "esc". Instead of displaying every transaction in the tracker, we decided to allow the user to first select a month and then display only the transactions from that month.
+We created a regular expression (regex) to constrain the year-month input to the YYYY-MM format. We then used a try/except block together with the strptime() method from the datetime.datetime class to ensure that a valid month was entered. We then used strftime() to convert the year and month into words and stored the result in the variable month_name. We do this because it provides friendlier output for the user. For example, 2028-08 is displayed as "August 2028". Invalid inputs are handled using a ValueError exception and an error message.
 
+```python
+def delete_transaction_menu(tracker):
 
+    if not tracker.transactions:
+        print("No transactions available.")
+        return
 
+    while True:
+
+        month = input(
+            "Enter month (YYYY-MM) or type 'esc' to return: "
+        )
+
+        if month.lower() == "esc":
+            return
+
+        pattern = r"^\d{4}-\d{2}$"
+
+        if not re.match(pattern, month):
+            print(
+                "❌ Invalid month format. "
+                "Please use YYYY-MM."
+            )
+            continue
+
+        try:
+            dt = datetime.datetime.strptime(month, "%Y-%m")
+            month_name = dt.strftime("%B %Y")
+            break
+
+        except ValueError:
+            print(
+                "❌ Invalid month. "
+                "Please enter a valid month."
+            )
+
+```   
+
+We then set up an empty list called matches. For every transaction whose date starts with the selected month, we use the append() method to add a tuple containing the transaction and its original index position to the matches list. An if not statement is used to display a message if no transactions are found for the selected month. The matches list therefore contains only the transactions from the selected month together with their original index positions in the main transactions list.
+We wanted the displayed transaction numbers to start from 0, so we used another for loop with enumerate() to create a new variable called display_index. We then used an f-string to display display_index together with the transaction details. This gives the user a simple numbering system for selecting which transaction should be deleted while still allowing the program to keep track of the original transaction indexes needed for deletion.
+
+```python
+    matches = []
+
+    for real_index, transaction in enumerate(tracker.transactions):
+
+        if transaction.date.startswith(month):
+
+            matches.append(
+                (real_index, transaction)
+            )
+
+    if not matches:
+        print(f"No transactions found for {month_name}.")
+        return
+
+    print(f"\nTransactions for {month_name}\n")
+
+    for display_index, (real_index, transaction) in enumerate(matches):
+
+        print(
+            f"{display_index}: "
+            f"{transaction.category} | "
+            f"${transaction.amount:.2f} | "
+            f"{transaction.date} | "
+            f"{transaction.description}"
+        )
+    print(len(matches))
+    while True:
+
+        try:
+
+            delete_choice = int(
+                input(
+                    "\nEnter transaction number to delete "
+                    "or -1 to cancel: "
+                )
+            )
+
+            if delete_choice == -1:
+                return
+
+            if (
+                delete_choice < 0
+                or delete_choice >= len(matches)
+            ):
+                print("Invalid transaction number.")
+                continue
+
+            real_index = matches[delete_choice][0]
+
+```
+
+To make the application feel more realistic, we added a confirmation step before deletion. A while loop and a try/except block are used to repeatedly prompt the user for a transaction number. The variable delete_choice stores the user's selection or allows the user to cancel the operation. If the user enters -1, the function returns to the main menu. If the user enters a transaction number that does not exist, an if statement with the or operator detects the invalid input, displays the message "Invalid transaction number", and the continue statement returns execution to the start of the loop so that the user can try again.
+
+``` python
+ confirm = input(
+                "Are you sure you want to delete "
+                "this transaction? (y/n): "
+            )
+
+            if confirm.lower() == "y":
+
+                tracker.delete_transaction(real_index)
+
+                tracker.save_to_file()
+
+                print(
+                    "Transaction deleted successfully!"
+                )
+
+            else:
+                print("Deletion cancelled.")
+
+            return
+
+        except ValueError:
+            print("Please enter a valid number.")
+```
 
 - ``def monthly_summary``  - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
  
