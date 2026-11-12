@@ -108,6 +108,28 @@ def generate_report(self):
 ```
 
 ### We then defined several standalone functions 
+-   `def validate_date` - In this function, we create a regular expression (regex) to ensure that the date is entered in the YYYY-MM-DD format. We then use a try/except block together with the datetime.strptime() method to verify that the input is a valid calendar date. If the date is not in the correct format or does not exist on the calendar, a ValueError is raised and an appropriate error message is displayed. The function then returns the validated date string.
+
+
+```python
+def validate_date(date_str):
+    pattern = r"^\d{4}-\d{2}-\d{2}$"
+
+    if not re.match(pattern, date_str):
+        raise ValueError("Date must be in YYYY-MM-DD format")
+
+    try:
+        datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    except ValueError:
+        raise ValueError("Date is not a valid calendar date")
+
+    return date_str
+
+```
+
+
+
+
 - ``def monthly_summary``  - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also give an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
  
 
@@ -158,16 +180,6 @@ def average_daily_spend(transactions):
     print(f"📆 Average daily spend: ${avg_spend:.2f}")
 ```
 
--
-    - `def validate_date` - this function validates the date entered for activity on any transaction using regular expressions. We created a pattern for the date format and checked if it matched with the entry 'date_str'. We used conditional 'IF' and the exception 'Raise Valuerror' to indicate an error message if the input did not match the pattern. If it did match then we instructed the program to return 'data_str'. 
-
-```python
-def validate_date(date_str):
-    pattern = r"^\d{4}-\d{2}-\d{2}$"
-    if not re.match(pattern, date_str):
-        raise ValueError("Date must be in YYYY-MM-DD format")
-    return date_str
-```
 
 ## Setting up of the main function 
 
