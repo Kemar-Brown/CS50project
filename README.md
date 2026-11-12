@@ -250,9 +250,7 @@ To make the application feel more realistic, we added a confirmation step before
             print("Please enter a valid number.")
 ```
 
-- ``def monthly_summary``  - this function calculates the total amount of money spent for the month and returns that in a string statement telling how much money a person earned over the month and also gives an alert if it went over that amount. We also used a ``Try/except`` block of code to make the month name in words to make it more friendly. I used the datetime library and imported the class datetime to use strptime to convert the string input into a a datetime format, then I converted the format to words using strftime to change from the year month format into a string with the words. We had a ``ValueError``exception with an error statement and the ``return`` at the end of the ``Try`` block made the function keep prompting until the correct input is put in. 
- 
-
+- `def monthly_summary` - this function prompts the user to enter a specific month as input, then calculates the total amount of money spent for the month and displays a statement showing how much money was spent during that month. It also gives an alert if spending exceeds a preset threshold. We use the same block of code used at the beginning of the `delete_transaction_menu` function where we validate the input using a regex in the format YYYY-MM, then use datetime to test for a valid month and convert the date into words, storing it in a variable called month_name. In a variable called total, we store the sum of all transactions for the selected month. We then use an if statement to determine if the total exceeds a preset value of $100,000, which triggers an alert message.
 
  ```python
 def monthly_summary(self, month):
@@ -267,7 +265,6 @@ def monthly_summary(self, month):
     if total > 1000:
         print(f"⚠️ Alert: You spent over $1000 in {month_name}!")
     print(f"Total spent in {month_name}: ${total:.2f}")
-
 ```   
 
 -   
