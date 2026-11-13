@@ -9,6 +9,7 @@ transactions
 - give specifics such as the average daily money spent in a given time period and the category which had the highest expenditure
 - generate a graphical report for a given time period
 
+
 ## Steps
 
 ### Creating classes
@@ -38,13 +39,16 @@ class FinanceTracker:
         self.transactions = []
 ```
 - ``add transactions`` (which appends the file by adding transactions)
-  
+
+
 ``` python
 def add_transaction(self, transaction):
         self.transactions.append(transaction)
 ```
 - ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. These index values are generated in a standalone delete_transaction_menu function (which I will talk about later) where the transactions are enumerated and displayed to the user.The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
 
+
+> Later on in the main function. I have a menu of options one of which calls the delete_transactions method. Initially we did not have deleting a transactionn as one of the menu options The method below was w
 ```python
 def delete_transaction(self, index):
         try:
@@ -140,7 +144,6 @@ We then plotted the transactions in a bar chart with one bar per category saving
         plt.show()
 ```
 
-We then grouped the rows by category and then summed the amounts
 
 ### We then defined several standalone functions 
 -   `def validate_date` - In this function, we create a regular expression (regex) to ensure that the date is entered in the YYYY-MM-DD format. We then use a try/except block together with the datetime.strptime() method to verify that the input is a valid calendar date. If the date is not in the correct format or does not exist on the calendar, a ValueError is raised and an appropriate error message is displayed. The function then returns the validated date string.
@@ -488,7 +491,7 @@ flowchart LR
 
 
 Below we have some blocked text
-> This text is indented 
+> This text is indented cv
 
 ## Sample 2 of Expense Flowchart
 
