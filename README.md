@@ -48,7 +48,7 @@ def add_transaction(self, transaction):
 - ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. These index values are generated in a standalone delete_transaction_menu function (which I will talk about later) where the transactions are enumerated and displayed to the user.The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
 
 
-> Later on in the main function. I have a menu of options one of which calls the delete_transactions method. Initially we did not have deleting a transactionn as one of the menu options The method below was w
+> Later on in the main function. I have a menu of options one of which calls the delete_transactions method. Initially we did not have deleting a transactionn as one of the menu options Originally we had a save menu option. But when I was adding a transaction I checked the csv file 
 ```python
 def delete_transaction(self, index):
         try:
