@@ -131,21 +131,21 @@ If the dataframe was empty then a message *"No transactions in this period."* wa
             return
 ```
 
-We then grouped the categories by rows and then added the amounts in each group using the command `.sum()`
+We then grouped the rows by categories and then added the amounts in each group using the command `.sum()`
 
 ```python
         totals = df.groupby("category")["amount"].sum()
         print(totals)
 ```
 
-We then plotted the transactions in a bar chart with one bar per category saving it as a png file in a file called **report.png**
+We then plotted the transaction category totals in a bar chart with one bar per category saving it as a png file in a file called **report.png**
 ```python
         totals.plot(kind="bar", title="Spending by Category")
         plt.ylabel("Amount ($)")
         plt.savefig("report.png")
         plt.show()
 ```
-
+> [!Note] We did not check the dates in this method because we used the `validate_date` function below to check the dates in the menu in the `main()` function. This is because `generate_report` is only called from the menu. 
 
 ### We then defined several standalone functions 
 -   `def validate_date` - In this function, we create a regular expression (regex) to ensure that the date is entered in the YYYY-MM-DD format. We then use a try/except block together with the datetime.strptime() method to verify that the input is a valid calendar date. If the date is not in the correct format or does not exist on the calendar, a ValueError is raised and an appropriate error message is displayed. The function then returns the validated date string.
