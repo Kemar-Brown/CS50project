@@ -94,8 +94,8 @@ def load_from_file(self):
 ```
 
 
-- ``def generate_report`` - this function sums the total amount spent for each category over a specified requested time and then represents this on a graph. 
-> [!IMPORTANT]
+- ``def generate_report`` - this method sums the total amount spent for each category over a specified requested time and then represents this on a graph. 
+> [!NOTE]
 >```
 >    If there are no transactions, it will state no transactions to report
 >```
@@ -108,7 +108,7 @@ def generate_report(self, start_date=None, end_date=None):
             print("No transactions to report.")
             return
 ```
-Then we used vars(t) to turn each transaction into a dictionary and then we used pandas to turn that list dictionaries into a dataframe (table) with each transaction in a separate row. We also converted the date column from a string to real dates so that we python can compare them. 
+Then we used vars(t) to turn each transaction into a dictionary and then we used pandas to turn that list dictionaries into a dataframe (table) with each transaction in a separate row. We also converted the date column from a string to real dates so that Python can compare them. 
 
 ```python
         df = pd.DataFrame([vars(t) for t in self.transactions])
