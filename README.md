@@ -321,7 +321,7 @@ def most_spent_category(transactions):
     print(f"💰 Most spent on: {max_category} (${max_value:.2f})")
 ```  
 
-- `def average_daily_spend` - this function is supposed to give the average spent on each transaction over a given period. This requires a start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
+- `def average_daily_spend` - this function is supposed to give the average spent per day on each transaction over a given period. This utilises optional start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
 
 ```python
 def average_daily_spend(transactions):
@@ -332,7 +332,7 @@ def average_daily_spend(transactions):
     df = pd.DataFrame([vars(t) for t in transactions])
     df["date"] = pd.to_datetime(df["date"])
 ```
-We then used a `while` loop with a `try/except` block to check the dates. WE made allowance if the user wanted to exit the program at any time by typing **esc**. The function validate_date was used to validate all date entries within the `try/except` block and a `Valuerror` statement was printed if the wrong date entry was given. 
+We then used a `while` loop with a `try/except` block to check the dates. WE made allowance if the user wanted to exit and return to the main menu at any time by typing **esc**. The function validate_date was used to validate all date entries within the `try/except` block and a `ValueError` statement was printed if the wrong date entry was given. 
 
 ```python
 # ✅ Prompt for start date
@@ -367,7 +367,7 @@ We then used a `while` loop with a `try/except` block to check the dates. WE mad
 
 
 ```
-If start or end dates are given then we filtered a range to include dates on or after the start date and on or before the end date. If there are no transactions in the range a statement is printed. We then group the rows for each day within that range of dates by the sum of the amounts in each category and store it in a variable called daily_totals. Then we find the average of those daily totals and store it in a variable called avg_spend
+If start or end dates are given then we filtered a range to include dates on or after the start date and on or before the end date. If there are no transactions in the range a statement is printed. We then group the rows by day by day, and the amounts for each day are added up.We then stored it in a variable called daily_totals. Then we find the average of those daily totals and store it in a variable called avg_spend. only days that have transactions are counted. Days with no spending are not included as $0, so the result is the average per spending day, not per calendar day.
 
 ```python
 if start:
@@ -382,7 +382,7 @@ if start:
     daily_totals = df.groupby(df["date"].dt.date)["amount"].sum()
     avg_spend = daily_totals.mean()
 ```
-We then use a set of `if` and `elif` statements to account for different scenarios whether a start or end date was given or not given. Because we wanted to use words as much in our presentation we converted the dates to words using `strftime' from the datetime libary and stored it in the variable ``period()``. Then we printed the average daily spend.
+We then use a set of `if` and `elif` statements to account for different scenarios whether a start or end date was given or not given. Because we wanted to use words as much as possible in our presentation we converted the dates to words using `strftime` from the datetime library and stored it in the variable period. Then we printed the average daily spend.
 
 ```python
 if start and end:
@@ -412,17 +412,17 @@ def main():
 We then instructed the program to print the different options for the expense tracker and prompt the user for a choice. 
 
 ``` python
-while True:
-    print("\n--- Personal Finance Tracker ---")
-    print("1. Add Transaction")
-    print("2. View Monthly Summary")
-    print("3. Generate Report")
-    print("4. Save Data")
-    print("5. Most Spent Category")
-    print("6. Average Daily Spend")
-    print("7. Exit")
+ while True:
+        print("\n--- Personal Finance Tracker ---")
+        print("1. Add Transaction")
+        print("2. Delete Transaction")
+        print("3. View Monthly Summary")
+        print("4. Generate Report")
+        print("5. Most Spent Category")
+        print("6. Average Daily Spend")
+        print("7. Exit")
 
-    choice = input("Choose an option: ")
+        choice = input("Choose an option: ")
 ```
 
 We then use use conditional IF sentences to determine the result that will happen given the option chosen. 
@@ -434,30 +434,68 @@ if choice == "1":
                     try:
                         amount = float(input("Enter amount: "))
                         if amount < 0:
-                            print("Amount cannot be negative. Please enter a valid amount.")
+                            print(
+                                "Amount cannot be negative. Please enter a valid amount."
+                            )
                             continue
                         break
                     except ValueError:
-                        print("Invalid input. Please enter a numeric value for the amount.")
+                        print(
+                            "Invalid input. Please enter a numeric value for the amount."
+                        )
 
-                category = input("Enter category (Food, Rent, etc.): ")
-                date = validate_date(input("Enter date (YYYY-MM-DD): "))
+                category = input("Enter category (Food, Rent, etc.): ").strip().lower()
+                while True:
+                    try:
+                        date = validate_date(
+                            input("Enter date (YYYY-MM-DD): ")
+                        )
+                        break
+                    except ValueError as e:
+                        print(f"❌ {e}")
                 description = input("Enter description (optional): ")
-                tracker.add_transaction(Transaction(amount, category, date, description))
+                tracker.add_transaction(
+                    Transaction(amount, category, date, description)
+                )
+                tracker.save_to_file()  # Save after adding a transaction
                 print("Transaction added successfully!")
             except Exception as e:
                 print(f"An error occurred while adding the transaction: {e}")
 
         elif choice == "2":
-            month = input("Enter month (YYYY-MM): ")
-            monthly_summary(tracker.transactions, month)
+            delete_transaction_menu(tracker)
 
         elif choice == "3":
-            tracker.generate_report()
+            monthly_summary(tracker.transactions)
 
         elif choice == "4":
-            tracker.save_to_file()
-            print("Data saved successfully!")
+            print("Generate report for a period.")
+
+            # ✅ Keep prompting until valid start date
+            while True:
+                start = input("Enter start date (YYYY-MM-DD) or press enter to leave blank: ")
+                if not start.strip():
+                    start = None
+                    break
+                try:
+                    start = validate_date(start)  # strict regex check
+                    break  # valid, exit loop
+                except ValueError as e:
+                    print(f"❌ {e}. Please enter a proper start date.")
+
+            # ✅ Keep prompting until valid end date
+            while True:
+                end = input("Enter end date (YYYY-MM-DD) or press enter to leave blank: ")
+                if not end.strip():
+                    end = None
+                    break
+                try:
+                    end = validate_date(end)
+                    break  # valid, exit loop
+                except ValueError as e:
+                    print(f"❌ {e}. Please enter a proper end date.")
+
+            tracker.generate_report(start_date=start, end_date=end)
 
         elif choice == "5":
             most_spent_category(tracker.transactions)
@@ -468,7 +506,6 @@ if choice == "1":
         elif choice == "7":
             print("Goodbye!")
             break
-
 
         else:
             print("Invalid choice. Please choose a number.")
