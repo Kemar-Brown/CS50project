@@ -100,7 +100,8 @@ def load_from_file(self):
 >    If there are no transactions, it will state no transactions to report
 >```
 
-We set start_date and end_date to none to signify no limit. The function will revert to None if there is a blank input
+We set start_date and end_date to `None` to signify no limit. The menu in the function will turn a blank input into `None`. 
+
 ``` python
 def generate_report(self, start_date=None, end_date=None):
         if not self.transactions:
