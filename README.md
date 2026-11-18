@@ -322,18 +322,51 @@ def most_spent_category(transactions):
 ```  
 
 -   
-    - `def average_daily_spend` - this function gives the average daily spend for the month
+    - `def average_daily_spend` - this function is supposed to give the average spent on each transaction over a given period. This requires a start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
 
 ```python
 def average_daily_spend(transactions):
     if not transactions:
         print("No transactions available.")
         return
+
     df = pd.DataFrame([vars(t) for t in transactions])
     df["date"] = pd.to_datetime(df["date"])
-    daily_totals = df.groupby(df["date"].dt.date)["amount"].sum()
-    avg_spend = daily_totals.mean()
-    print(f"📆 Average daily spend: ${avg_spend:.2f}")
+```
+We then used a `while` loop with a `try/except` block to check the dates. WE made allowance if the user wanted to exit the program at any time by typing **esc**. The function validate_date was used to validate all date entries within the `try/except` block and a `Valuerror` statement was printed if the wrong date entry was given. 
+
+```python
+# ✅ Prompt for start date
+    while True:
+        start = input("Enter start date (YYYY-MM-DD), press enter to leave blank, or type 'esc' to return to the main menu: ")
+        if start.lower() == "esc":
+            return
+        if not start.strip():
+            start = None
+            break
+        try:
+            start = validate_date(start)
+            start = datetime.datetime.strptime(start, "%Y-%m-%d")
+            break
+        except ValueError as e:
+            print(f"❌ {e}. Please try again.")
+
+    # ✅ Prompt for end date
+    while True:
+        end = input("Enter end date (YYYY-MM-DD), press enter to leave blank, or type 'esc' to return to the main menu: ")
+        if end.lower() == "esc":
+            return
+        if not end.strip():
+            end = None
+            break
+        try:
+            end = validate_date(end)
+            end = datetime.datetime.strptime(end, "%Y-%m-%d")
+            break
+        except ValueError as e:
+            print(f"❌ {e}. Please try again.")
+
+
 ```
 
 
