@@ -368,6 +368,36 @@ We then used a `while` loop with a `try/except` block to check the dates. WE mad
 
 
 ```
+If start or end dates are given then we filtered a range to include dates on or after the start date and on or before the end date. If there are no transactions in the range a statement is printed. We then group the rows for each day within that range of dates by the sum of the amounts in each category and store it in a variable called daily_totals. Then we find the average of those daily totals and store it in a variable called avg_spend
+
+```python
+if start:
+        df = df[df["date"] >= start]
+    if end:
+        df = df[df["date"] <= end]
+
+    if df.empty:
+        print("No transactions in this period.")
+        return
+
+    daily_totals = df.groupby(df["date"].dt.date)["amount"].sum()
+    avg_spend = daily_totals.mean()
+```
+We then use a set of `if` and `elif` statements to account for different scenarios whether a start or end date was given or not given. Because we wanted to use words as much in our presentation we converted the dates to words using `strftime' from the datetime libary and stored it in the variable ``period()``. Then we printed the average daily spend.
+
+```python
+if start and end:
+        period = f"between {start.strftime('%B %d, %Y')} and {end.strftime('%B %d, %Y')}"
+    elif start and not end:
+        period = f"from {start.strftime('%B %d, %Y')} onward"
+    elif end and not start:
+        period = f"up to {end.strftime('%B %d, %Y')}"
+    else:
+        period = "across all recorded transaction periods"
+
+    print(f"📆 Average daily spend {period}: ${avg_spend:.2f}")
+```
+
 
 
 ## Setting up of the main function 
