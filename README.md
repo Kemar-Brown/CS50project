@@ -321,8 +321,7 @@ def most_spent_category(transactions):
     print(f"💰 Most spent on: {max_category} (${max_value:.2f})")
 ```  
 
--   
-    - `def average_daily_spend` - this function is supposed to give the average spent on each transaction over a given period. This requires a start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
+- `def average_daily_spend` - this function is supposed to give the average spent on each transaction over a given period. This requires a start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
 
 ```python
 def average_daily_spend(transactions):
