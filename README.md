@@ -425,7 +425,7 @@ We then instructed the program to print the different options for the expense tr
         choice = input("Choose an option: ")
 ```
 
-We then use use conditional IF sentences to determine the result that will happen given the option chosen. 
+We then use use conditional IF sentences to determine the result that will happen given the option chosen. for choice 1: adding a transaction we set up a `while` loop within a `try/except` block that holds a second `try/except block`. We set the conditionals for the transaction inlcudingg; the amount must be non-negative; it must be numeric (or else a ValueError catches it and a statement is printed). The category is stripped of whites spaces and made lower case to prevent two different categories being created which were the same. (I had an issue when I did "food" and Food") The date was tested using validate_date. The methods add_transactions and save_to_file were called and the statement "Transaction added successfully was  
 
 ```python
 if choice == "1":
