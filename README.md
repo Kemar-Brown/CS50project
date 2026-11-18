@@ -306,7 +306,7 @@ def monthly_summary(self, month):
     print(f"Total spent in {month_name}: ${total:.2f}")
 ```   
 
--   `def_most_spent_category` - this function totals the amount spent for all trabsactions and identifies the category which carried the most expenditure.  
+-   `def_most_spent_category` - this function totals the amount spent for all transactions and identifies the category which carried the most expenditure.  
 
 ```python
 def most_spent_category(transactions):
