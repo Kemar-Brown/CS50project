@@ -24,7 +24,7 @@ The first class we called Transaction with  attributes:
 ```python
 class Transaction:
     def __init__(self, amount, category, date, description=""):
-        self.amount = amount
+        self.amount = float(amount)
         self.category = category
         self.date = date
         self.description = description
@@ -83,12 +83,15 @@ def save_to_file(self):
 
 ```python m
 def load_from_file(self):
+        self.transactions = []  # Clear existing transactions before loading
         try:
             with open(self.filename, "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     amount, category, date, description = row
-                    self.transactions.append(Transaction(float(amount), category, date, description))
+                    self.transactions.append(
+                        Transaction(float(amount), category, date, description)
+                    )
         except FileNotFoundError:
             print("No existing file found. Starting fresh.")
 ```
@@ -292,18 +295,30 @@ To make the application feel more realistic, we added a confirmation step before
 
 - `def monthly_summary` - this function prompts the user to enter a specific month as input, then calculates the total amount of money spent for the month and displays a statement showing how much money was spent during that month. It also gives an alert if spending exceeds a preset threshold. We use the same block of code used at the beginning of the `delete_transaction_menu` function where we validate the input using a regex in the format YYYY-MM, then use datetime to test for a valid month and convert the date into words, storing it in a variable called month_name. In a variable called total, we store the sum of all transactions for the selected month. We then use an if statement to determine if the total exceeds a preset value of $100,000, which triggers an alert message.
 
- ```python
-def monthly_summary(self, month):
+```python
+def monthly_summary(transactions):
+    while True:
+        month = input("Enter month (YYYY-MM) or type 'esc' to return: ")
+
+        if month.lower() == "esc":
+            return
+
+        pattern = r"^\d{4}-\d{2}$"
+        if not re.match(pattern, month):
+            print("❌ Invalid month format. Please use YYYY-MM (e.g., 2026-09).")
+            continue
+
         try:
-        dt = datetime.datetime.strptime(month, "%Y-%m") 
-        month_name = dt.strftime("%B %Y")
-    except ValueError:
-        print("❌ Invalid month format. Please use YYYY-MM (e.g., 2026-09).")
-        return
+            dt = datetime.datetime.strptime(month, "%Y-%m")
+            month_name = dt.strftime("%B %Y")
+            break
+        except ValueError:
+            print("❌ Invalid month format. Please use YYYY-MM (e.g., 2026-09).")
+            continue
 
     total = sum(t.amount for t in transactions if t.date.startswith(month))
-    if total > 1000:
-        print(f"⚠️ Alert: You spent over $1000 in {month_name}!")
+    if total > 100000:
+        print(f"⚠️ Alert: You spent over $100,000 in {month_name}!")
     print(f"Total spent in {month_name}: ${total:.2f}")
 ```   
 
