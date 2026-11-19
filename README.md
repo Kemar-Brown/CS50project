@@ -461,13 +461,19 @@ if choice == "1":
                 print("Transaction added successfully!")
             except Exception as e:
                 print(f"An error occurred while adding the transaction: {e}")
+```
 
+We then called the functions for `delete_transaction_menu` and for `monthly_summary` for choices 2 & 3. 
+
+```python
         elif choice == "2":
             delete_transaction_menu(tracker)
 
         elif choice == "3":
             monthly_summary(tracker.transactions)
-
+```
+For choice 4 we set up two `while` loops for the start and end dates, each with `try/except` blocks. The inputs for start and end dates are set to `NONE` if there is not entry. The dates are validated using the validate_date function. 
+```python
         elif choice == "4":
             print("Generate report for a period.")
 
@@ -496,6 +502,10 @@ if choice == "1":
                     print(f"❌ {e}. Please enter a proper end date.")
 
             tracker.generate_report(start_date=start, end_date=end)
+```
+We then called the functions for `most_spent-category`, `average_daily_spend` for choices 5 and 6. Option 7 was for exiting, with a print statement if an invalid choice is chosen. 
+
+```python
 
         elif choice == "5":
             most_spent_category(tracker.transactions)
@@ -518,19 +528,19 @@ Average Daily Spend
 ```mermaid
 flowchart LR
     A[Menu Choices] --> B[Option 1: Add Transaction]
-    A --> C[Option 2: View Monthly Summary]
-    A --> C1[Option 3: Generate Report]
-    A --> C2[Option 4: Save Data]
-    A --> D[Option 5: Category with highest expenditure]
-    A --> E[Option 6: Calculate Average Daily Spend ]
+    A --> C[Option 2: Delete Transaction]
+    A --> C1[Option 3: View Monthly Summary]
+    A --> C2[Option 4: Generate Report]
+    A --> D[Option 5: Most Spent Category]
+    A --> E[Option 6: Average Spend ]
 
     A --> F[Option 7: Exit]
     
     %% Results of each option
     B --> L
-    C --> H[Result: Monthly Summary Displayed]
-    C1 --> C3[Result: Report Generated]
-    C2 --> C4[Result: Data Saved to CSV]
+    C --> H[Result: Deleted Transaction Displayed]
+    C1 --> C3[Result: Monthly Summary Displayed]
+    C2 --> C4[Result: Report Generated]
     D --> I[Result: Highest Spend category displayed with amount]
     E --> J[Result: Average Daily Spend]
     F --> K[Result: Program Ends]
@@ -550,6 +560,7 @@ flowchart LR
     A --> P[Invalid choice. Please try again]
 
 ```
+
 
 
 
