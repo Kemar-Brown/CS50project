@@ -557,7 +557,7 @@ flowchart LR
     O --> G2[Result: Error Message - Invalid Input]
 
     %% Invalid choice branch
-    A --> P[Invalid choice. Please try again]
+    A --> P[An error occurred while adding the transaction]
 
 ```
 
