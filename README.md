@@ -10,6 +10,7 @@ transactions
 - generate a graphical report for a given time period
 
 
+
 ## Steps
 
 ### Importing libraries
