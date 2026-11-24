@@ -607,9 +607,58 @@ flowchart LR
 
 ```
 
-** We then worked on our pytests. I did pytests for all the standalone functions. 
+** We then worked on our pytests. I did pytests for all the standalone functions. I realised that I would need a sample of inputs to test functions. I used the data that I had created while setting up and testing `project.py` 
 
+## Testing with pytest
 
+To check that our standalone functions work correctly, we wrote tests in a separate file called `test_project.py`, which we run with the command `pytest test_project.py`. We decided to test the five standalone functions: `delete_transaction_menu`, `monthly_summary`, `most_spent_category`, `validate_date` and `average_daily_spend`.
+
+### Imports
+
+We imported `pytest` and then imported the five functions from `project.py`. We also imported the two classes, `FinanceTracker` and `Transaction`. We are not testing the classes themselves, but we need them to build the sample data: `delete_transaction_menu` needs a real tracker object because it calls the tracker's `delete_transaction` and `save_to_file` methods, and the other functions need a list of `Transaction` objects so they can read each transaction's amount, date and category.
+
+```python
+import pytest
+from project import (
+    delete_transaction_menu,
+    monthly_summary,
+    most_spent_category,
+    validate_date,
+    average_daily_spend,
+    FinanceTracker,  # only used to load the sample data for the tests
+    Transaction,
+)
+```
+
+### Sample data
+
+We stored a fixed copy of our transaction data in a variable called `SAMPLE_CSV` in the test file instead of using our real `finance_data.csv`. We did this for two reasons. First, the real file changes every time we add or delete a transaction, which would change the totals and make the tests fail even when the code is correct. Second, some of the tests delete transactions, and we did not want the tests to remove our real data. We chose data that spread over several months, included a month over the $100,000 alert limit, and included one day (2026-10-14) with two transactions, so that we could test many different situations.
+
+### Simulating user input
+
+Most of our functions use `input()` to ask the user questions, but a test cannot type answers. We wrote a helper function called `fake_inputs` that uses pytest's `monkeypatch` to replace Python's `input()` with our own version for the length of a test. We give it a list of answers, and each time the function asks a question, `next()` hands over the next answer in the list. For example, `["2026-07", "0", "y"]` answers the month, the transaction number and the confirmation in `delete_transaction_menu`.
+
+```python
+def fake_inputs(monkeypatch, answers):
+    answers = iter(answers)
+    monkeypatch.setattr("builtins.input", lambda _prompt="": next(answers))
+```
+
+### The tracker fixture
+
+Many of our tests needed the same sample data, so instead of repeating the setup in every test we created a pytest fixture called `tracker`. It uses pytest's `tmp_path` (a temporary folder that is deleted after the test) to write `SAMPLE_CSV` to a test file, creates a `FinanceTracker` that saves to that file, and loads the data using our `load_from_file` method. Any test that has `tracker` in its brackets automatically receives a fresh copy, so a transaction deleted in one test is still there in the next.
+
+```python
+@pytest.fixture
+def tracker(tmp_path):
+    csv_file = tmp_path / "test_data.csv"
+    csv_file.write_text(SAMPLE_CSV)
+    t = FinanceTracker(filename=csv_file)
+    t.load_from_file()
+    return t
+```
+
+We also used pytest's `capsys`, which captures everything a function prints. Because our functions print their results rather than returning them, we use `capsys.readouterr().out` to get the printed text and then use `assert` to check that the expected message appears.
 
 
 
