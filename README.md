@@ -30,7 +30,7 @@ class Transaction:
         self.description = description
 ```
 
-Them we set up the class FinanceTracker with several methods.  
+Then we set up the class FinanceTracker with several methods.  
 
 ```python
 class FinanceTracker:
@@ -48,7 +48,7 @@ def add_transaction(self, transaction):
 - ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. These index values are generated in a standalone delete_transaction_menu function (which I will talk about later) where the transactions are enumerated and displayed to the user.The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
 
 
-> Later on in the main function. I have a menu of options one of which calls the `delete_transactions_menu` function which then calls the `delete_transaction` method. Initially we did not have deleting a transaction as one of the menu options Originally we had a save menu option which saved the file but I though it would be better to build it into the adding a transaction menu option so that it would be done automatically. 
+> Later on in the main function. I have a menu of options one of which calls the `delete_transactions_menu` function which then calls the `delete_transaction` method. Initially we did not have deleting a transaction as one of the menu options Originally we had a save menu option which saved the file but I thought it would be better to build it into the adding a transaction menu option so that it would be done automatically. 
 
 ```python
 def delete_transaction(self, index):
@@ -79,7 +79,7 @@ def save_to_file(self):
                 writer.writerow([t.amount, t.category, t.date, t.description])
 ```
 
-- ``load_from file`` (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that "No existing file found. Starting fresh."
+- ``load_from_file`` (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that "No existing file found. Starting fresh."
 
 ```python
 def load_from_file(self):
@@ -111,13 +111,13 @@ def generate_report(self, start_date=None, end_date=None):
             print("No transactions to report.")
             return
 ```
-Then we used vars(t) to turn each transaction into a dictionary and then we used pandas to turn that list dictionaries into a dataframe (table) with each transaction in a separate row. We also converted the date column from a string to real dates so that Python can compare them. 
+Then we used vars(t) to turn each transaction into a dictionary and then we used pandas to turn that list of dictionaries into a dataframe (table) with each transaction in a separate row. We also converted the date column from a string to real dates so that Python can compare them. 
 
 ```python
         df = pd.DataFrame([vars(t) for t in self.transactions])
         df["date"] = pd.to_datetime(df["date"])  # convert to datetime
 ```
-We used several `IF` statements to handle start and end dates. We set the start date to match transactions with date values on or after the input date. For a given end date we specified values before or on the input date.  
+We used two `IF` statements to handle start and end dates. We set the start date to match transactions with date values on or after the input date. For a given end date we specified values before or on the input date.  
 
 ```python
         if start_date:
@@ -321,7 +321,7 @@ def monthly_summary(transactions):
     print(f"Total spent in {month_name}: ${total:.2f}")
 ```   
 
--   `def_most_spent_category` - this function totals all transactions by category and identifies the category which carried the most expenditure. 
+-   `def most_spent_category` - this function totals all transactions by category and identifies the category which carried the most expenditure. 
 
 > If there are not transactions it prints"No Transactions available."
 
@@ -383,7 +383,7 @@ We then used a `while` loop with a `try/except` block to check the dates. WE mad
 
 
 ```
-If start or end dates are given then we filtered a range to include dates on or after the start date and on or before the end date. If there are no transactions in the range a statement is printed. We then group the rows by day by day, and the amounts for each day are added up.We then stored it in a variable called daily_totals. Then we find the average of those daily totals and store it in a variable called avg_spend. only days that have transactions are counted. Days with no spending are not included as $0, so the result is the average per spending day, not per calendar day.
+If start or end dates are given then we filtered a range to include dates on or after the start date and on or before the end date. If there are no transactions in the range a statement is printed. We then group the rows by by day, and the amounts for each day are added up.We then stored it in a variable called daily_totals. Then we find the average of those daily totals and store it in a variable called avg_spend. Only days that have transactions are counted. Days with no spending are not included as $0, so the result is the average per spending day, not per calendar day.
 
 ```python
 if start:
@@ -488,7 +488,7 @@ We then called the functions for `delete_transaction_menu` and for `monthly_summ
         elif choice == "3":
             monthly_summary(tracker.transactions)
 ```
-For choice 4 we set up two `while` loops for the start and end dates, each with `try/except` blocks. The inputs for start and end dates are set to `NONE` if there is not entry. The dates are validated using the validate_date function. 
+For choice 4 we set up two `while` loops for the start and end dates, each with `try/except` blocks. The inputs for start and end dates are set to `NONE` if there is no entry. The dates are validated using the validate_date function. 
 ```python
         elif choice == "4":
             print("Generate report for a period.")
@@ -519,7 +519,7 @@ For choice 4 we set up two `while` loops for the start and end dates, each with 
 
             tracker.generate_report(start_date=start, end_date=end)
 ```
-We then called the functions for `most_spent-category`, `average_daily_spend` for choices 5 and 6. Option 7 was for exiting, with a print statement if an invalid choice is chosen. 
+We then called the functions for `most_spent_category`, `average_daily_spend` for choices 5 and 6. Option 7 was for exiting, with a print statement if an invalid choice is chosen. 
 
 ```python
 
