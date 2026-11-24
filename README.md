@@ -38,7 +38,7 @@ class FinanceTracker:
         self.filename = filename
         self.transactions = []
 ```
-- ``add transactions`` (which appends the file by adding transactions)
+- ``add transactions`` (which appends the list by adding a transaction)
 
 
 ``` python
@@ -48,7 +48,7 @@ def add_transaction(self, transaction):
 - ``delete transactions`` uses a ``try/except`` block to remove a transaction from the transactions list using the ``pop()`` method and an index value. These index values are generated in a standalone delete_transaction_menu function (which I will talk about later) where the transactions are enumerated and displayed to the user.The removed transaction is stored in the variable ``deleted``, which allows the program to print the category, amount, date, and description of the deleted item so the user can verify that the correct transaction was removed. An error message is displayed if an invalid transaction number is entered.
 
 
-> Later on in the main function. I have a menu of options one of which calls the delete_transactions method. Initially we did not have deleting a transactionn as one of the menu options Originally we had a save menu option which saved the file but I though it would be better to build it into the adding a transaction menu option so that it would be done automatically. 
+> Later on in the main function. I have a menu of options one of which calls the `delete_transactions_menu` function which then calls the `delete_transaction` method. Initially we did not have deleting a transaction as one of the menu options Originally we had a save menu option which saved the file but I though it would be better to build it into the adding a transaction menu option so that it would be done automatically. 
 
 ```python
 def delete_transaction(self, index):
@@ -69,7 +69,7 @@ def delete_transaction(self, index):
 
 
 - ``save_to_file`` (which instructs python to create the csv file if there was none present and saves the information
-  added)
+added)
   
 ```python
 def save_to_file(self):
@@ -79,9 +79,9 @@ def save_to_file(self):
                 writer.writerow([t.amount, t.category, t.date, t.description])
 ```
 
-- ``load_from file`` (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that the "file was not found. Starting Fresh"
+- ``load_from file`` (which opens the file and reads the data that is present in it). If no file has been created we use the exception FileNotFoundError with the statement that "No existing file found. Starting fresh."
 
-```python m
+```python
 def load_from_file(self):
         self.transactions = []  # Clear existing transactions before loading
         try:
@@ -103,7 +103,7 @@ def load_from_file(self):
 >    If there are no transactions, it will state no transactions to report
 >```
 
-We set start_date and end_date to `None` to signify no limit. The menu in the function will turn a blank input into `None`. 
+We set start_date and end_date to `None` to signify no limit. The menu in the `main()` function will turn a blank input into `None`. 
 
 ``` python
 def generate_report(self, start_date=None, end_date=None):
@@ -151,7 +151,7 @@ We then plotted the transaction category totals in a bar chart with one bar per 
 > [!Note] We did not check the dates in this method because we used the `validate_date` function below to check the dates in the menu in the `main()` function. This is because `generate_report` is only called from the menu. 
 
 ### We then defined several standalone functions 
--   `def validate_date` - In this function, we create a regular expression (regex) to ensure that the date is entered in the YYYY-MM-DD format. We then use a try/except block together with the datetime.strptime() method to verify that the input is a valid calendar date. If the date is not in the correct format or does not exist on the calendar, a ValueError is raised and an appropriate error message is displayed. The function then returns the validated date string.
+-   `def validate_date` - In this function, we create a regular expression (regex) to ensure that the date is entered in the YYYY-MM-DD format. We then use a try/except block together with the datetime.strptime() method to verify that the input is a valid calendar date. If the date is not in the correct format or does not exist on the calendar, a ValueError is raised with an appropriate error message, which is printed where the function is called. The user is then prompted to enter a correct date, and once it is correct the function returns the validated date string.
 
 
 ```python
@@ -240,7 +240,6 @@ We wanted the displayed transaction numbers to start from 0, so we used another 
             f"{transaction.date} | "
             f"{transaction.description}"
         )
-    print(len(matches))
     while True:
 
         try:
@@ -322,7 +321,9 @@ def monthly_summary(transactions):
     print(f"Total spent in {month_name}: ${total:.2f}")
 ```   
 
--   `def_most_spent_category` - this function totals the amount spent for all transactions and identifies the category which carried the most expenditure.  
+-   `def_most_spent_category` - this function totals all transactions by category and identifies the category which carried the most expenditure. 
+
+> If there are not transactions it prints"No Transactions available."
 
 ```python
 def most_spent_category(transactions):
@@ -336,7 +337,7 @@ def most_spent_category(transactions):
     print(f"💰 Most spent on: {max_category} (${max_value:.2f})")
 ```  
 
-- `def average_daily_spend` - this function is supposed to give the average spent per day on each transaction over a given period. This utilises optional start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
+- `def average_daily_spend` - this function is supposed to give the average spent per day over a given period. This utilises optional start and end date entries. The code at the beginning is similar to previous sections with a printout if there are no transactions. A dataframe of the transactions is created using pandas and the date column is converted from a string to real dates. 
 
 ```python
 def average_daily_spend(transactions):
@@ -416,7 +417,7 @@ if start and end:
 
 ## Setting up of the main function 
 
-This includes all we planned to do in the expense tracker program. In our `main()` function we create the object `tracker` from the class finance tracker. We then called its method `load_from_file()` to access existing information from the csv file. 
+This includes all we planned to do in the expense tracker program. In our `main()` function we create the object `tracker` from the class `Financetracker`. We then called its method `load_from_file()` to access existing information from the csv file. 
 
 ```python
 def main():
@@ -572,7 +573,7 @@ flowchart LR
     O --> G2[Result: Error Message - Invalid Input]
 
     %% Invalid choice branch
-    A --> P[An error occurred while adding the transaction]
+    A --> P[Result: Invalid choice. Please choose a number.]
 
 ```
 
