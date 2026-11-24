@@ -97,11 +97,11 @@ def load_from_file(self):
 ```
 
 
-- ``def generate_report`` - this method sums the total amount spent for each category over a specified requested time and then represents this on a graph. 
+- ``def generate_report`` - this method sums the total amount spent for each category over a specified requested time and then represent this on a graph. 
+
 > [!NOTE]
->```
->    If there are no transactions, it will state no transactions to report
->```
+> If there are no transactions, it will state no transactions to report
+
 
 We set start_date and end_date to `None` to signify no limit. The menu in the `main()` function will turn a blank input into `None`. 
 
