@@ -12,6 +12,38 @@ transactions
 
 ## Steps
 
+### Importing libraries
+
+Before writing any code, we imported the libraries our program needs:
+
+```python
+import csv
+import re
+import pandas as pd
+import matplotlib.pyplot as plt
+import datetime
+```
+
+- `csv` – part of Python's standard library. We use it to write transactions to `finance_data.csv` with `csv.writer` and to read them back with `csv.reader`, so that our data is saved between uses of the program.
+- `re` – Python's regular expression library, also built in. We use it to check that dates are entered in the YYYY-MM-DD format and months in the YYYY-MM format before we accept them.
+- `pandas` (imported as `pd`) – a library for working with data in tables. We use it to turn our list of transactions into a DataFrame so that we can easily filter transactions by date, group them by category or by day, and add up or average the amounts.
+- `matplotlib.pyplot` (imported as `plt`) – a library for drawing graphs. We use it in the `generate_report` method to draw a bar chart of spending by category and save it as `report.png`.
+- `datetime` – built in. We use `strptime` to check that a date or month actually exists on the calendar and to turn text into real dates that can be compared, and `strftime` to turn dates back into friendlier words, such as "September 2026".
+
+`csv`, `re` and `datetime` come with Python, so they do not need to be installed. The other libraries are listed in a file called `requirements.txt`:
+
+```
+pandas
+matplotlib
+pytest
+```
+
+We included `pytest` as well because we use it to run the tests in `test_project.py`. All three can be installed at once with:
+
+```
+pip install -r requirements.txt
+```
+
 ### Creating classes
 We utilized object oriented programming to set up two classes which we will use in the project
 
@@ -573,6 +605,9 @@ flowchart LR
     A --> P[Result: Invalid choice. Please choose a number.]
 
 ```
+
+** We then worked on our pytests. I did pytests for all the standalone functions. 
+
 
 
 
