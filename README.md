@@ -9,7 +9,7 @@ transactions
 - give specifics such as the average daily money spent in a given time period and the category which had the highest expenditure
 - generate a graphical report for a given time period
 
-
+My wife travelled abroad and I was left with the task of running the house and expenses. When she came back she was incensed at the amount of money I spent. I had only done the usual household expenses with nothing new. I realised that she was not really aware of how much a household with three boys can be costly. This was the inspiration for a finance tracker where a person can track their costs and a husband can prove to his skeptical wife that he had not wasted the money. 
 
 ## Steps
 
