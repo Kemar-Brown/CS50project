@@ -570,7 +570,7 @@ flowchart LR
 
     %% Two possible outcomes after transaction steps
     O --> G[Result: Transaction Added Successfully]
-    O --> G2[Result: Error Message - Invalid Input]
+    O --> G2[Result: An error occurred while adding the transaction]
 
     %% Invalid choice branch
     A --> P[Result: Invalid choice. Please choose a number.]
