@@ -538,9 +538,6 @@ We then called the functions for `most_spent-category`, `average_daily_spend` fo
 ```
 This is represented in the following flowchart.   
 
-Average Daily Spend
-    [Result: Highest Spend category displayed with amount]
-
 ```mermaid
 flowchart LR
     A[Menu Choices] --> B[Option 1: Add Transaction]
