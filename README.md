@@ -698,7 +698,7 @@ def tracking(tmp_path):
 We also used pytest's `capsys`, which captures everything a function prints. Because our functions print their results rather than returning them, we use `capsys.readouterr().out` to get the printed text and then use `assert` to check that the expected message appears.
 
 
-We know in our sample had 32 transactions. Our first test was to check if the sample data had loaded correctly by asserting that tracker has 32 transactions. We then gave a dummy input of choice `["2026-07", "0", "y"]` into our code telling it the month was July 2026, our transaction number was 0 and our confirmation whether we wanted to delete it was yes. Note: We did this because July has only one transaction and it is the only month which has the transaction category `rent` in th esample. Then we checked if the length of the csv file was changed to 31 transactions. and we then checked if rent was in the transaction categories because that would mean the wrong transaction had been deleted. We also checked to see if the message `Transaction deleted successfully` was printed with `capsys`
+We know our sample has 32 transactions. Our first test was to check that the sample data had loaded correctly by asserting that the `tracking` fixture has 32 transactions. We then gave the dummy inputs `["2026-07", "0", "y"]` to our code, telling it the month was July 2026, our transaction number was 0, and our answer to whether we wanted to delete it was yes. Note: we did this because July has only one transaction, and it is the only month which has a transaction with the category `rent` in the sample. Then we checked that the number of transactions in the tracker had changed to 31, and we checked that `rent` was no longer in the transaction categories, because if it was still there, the transaction we chose had not been deleted. We also checked that the message `Transaction deleted successfully!` was printed, using `capsys`.
 
 ```python
 
@@ -714,8 +714,23 @@ def test_delete_transaction_menu(tracking, monkeypatch, capsys):
     assert all(t.category != "rent" for t in tracking.transactions)
     assert "Transaction deleted successfully!" in capsys.readouterr().out
 ```
-dfdf
-dfd
+`test_delete_transaction_menu_deletes_correct_one` selects transaction 3 in December 2026, the pharmacy entry on 2026-12-14, and confirms with "y". Because an August transaction sits between the two December pharmacy entries in the full list, this checks that the display number is matched to the correct `real_index`: the test confirms that 2026-12-14 is gone while the other pharmacy entry (2026-12-21) and the August transaction (2026-08-23) remain.
+
+| Test | Inputs | What it checks |
+|---|---|---|
+| `test_delete_transaction_menu` | July, 0, y | Data loads (32), one transaction deleted (31), rent gone, success message printed |
+| `test_delete_transaction_menu_deletes_correct_one` | December, 3, y | The display number deletes the right transaction in the full list |
+| `test_delete_transaction_menu_saves_to_file` | July, 0, y | The deletion is saved to the CSV file |
+| `test_delete_transaction_menu_cancel` | September, 0, n | Nothing deleted, "Deletion cancelled." printed |
+
+```python
+ dummy_inputs(monkeypatch, ["2026-12", "3", "y"])
+    delete_transaction_menu(tracking)
+    dates = [t.date for t in tracking.transactions]
+    assert "2026-12-14" not in dates
+    assert "2026-12-21" in dates  # the other pharmacy entry is still there
+    assert "2026-08-23" in dates  # appliances was not touched
+```
 
 
 
