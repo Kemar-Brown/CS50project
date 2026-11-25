@@ -687,7 +687,7 @@ Many of our tests needed the same sample data, so instead of repeating the setup
 
 ```python
 @pytest.fixture
-def tracker(tmp_path):
+def tracking(tmp_path):
     csv_file = tmp_path / "test_data.csv"
     csv_file.write_text(SAMPLE_CSV)
     t = FinanceTracker(filename=csv_file)
@@ -698,92 +698,14 @@ def tracker(tmp_path):
 We also used pytest's `capsys`, which captures everything a function prints. Because our functions print their results rather than returning them, we use `capsys.readouterr().out` to get the printed text and then use `assert` to check that the expected message appears.
 
 
+Our first test was to check if the sample data had loaded. We know in our sample
 
-
-
-[Can we have a link here](https://www.google.com/search?q=picture+of+a+dog&rlz=1C1CFYW_enJM1210JM1210&oq=picture+of+a+dog&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgcIARAAGIAEMgcIAhAAGIAEMgcIAxAAGIAEMgcIBBAAGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgcICBAAGIAEMgcICRAAGIAE0gEINDE2NWowajeoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8#sv=CAMSXhoyKhBlLWR4VEJsb01XQloweENNMg5keFRCbG9NV0JaMHhDTToOSlhSb2p1RVVxYklFWE0gBCokCg41ODNmcmdyZHE2aVlGTRIQZS1keFRCbG9NV0JaMHhDTRgAMAEYByCBlczqCEoIEAEYASABKAE)
-
-![alt text](http://picsum.photos/200/200)
-
-This is being done *in a crazy* way to **TEST**
-
-
-
-
-## Expense Tracker
-This section shows a sample record of expenses stored in table format.
-
-
-| 🟦 Category | 🟦 Details | 🟦 Status |
-| --- | --- | --- |
-| rent| 50 | 2026-09-14 |
-> 💡 Tip: You can add more rows for additional expenses.
-
-## Sample of Expense Flowchart
-
-```mermaid
-flowchart LR
-    A[Income] --> B[Expenses]
-    B --> C[Rent]
-    B --> D[Food]
-    B --> E[Utilities]
-    B --> F[Transport]
-
-    subgraph TransportGroup
-        F[Transport]
-        G[Car]
-    end
-
+```python
+def test_sample_data_loaded(tracking):
+    assert len(tracking.transactions) == 32
 ```
 
 
-Below we have some blocked text
-> This text is indented cv
-
-## Sample 2 of Expense Flowchart
-
-```mermaid
-flowchart LR
-    A[Income] --> B[Expenses]
-    B --> C[Rent]
-    B --> D[Food]
-    B --> E[Utilities]
-    B --> F[Transport]
-    F --> G[Car]
-```
-
-> [!NOTE]
-> This is a general note.
-
-> [!TIP]
-> 💡 Helpful hint goes here.
-
-> [!IMPORTANT]
-> ⚠️ Critical instruction you must follow.
-
-> [!WARNING]
-> 🚨 Be careful — this could cause issues.
-
-A polished README often mixes tables, flowcharts, and callouts. For example, you could put your expense table, then add a [!IMPORTANT]
-
->```
->    I love the work I am doing
->```
 
 
-In this script we have some `Variable` and `string` values
-
-If we want to bold and underline we can use this
-## Trust the Process
-
-In this script we have some `Variable` and `string` values
-
-
-- first time
-
-links for videos to learn from include
-
-[learning github](https://www.youtube.com/watch?v=eJojC3lSkwg)
-
-[making a gihub rpository](https://www.youtube.com/watch?v=qNKdm8qAQfg) 
 
