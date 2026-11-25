@@ -714,21 +714,64 @@ def test_delete_transaction_menu(tracking, monkeypatch, capsys):
     assert all(t.category != "rent" for t in tracking.transactions)
     assert "Transaction deleted successfully!" in capsys.readouterr().out
 ```
-We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancellation was correctly checked. 
+We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancellation was correctly checked. Then we checked for cases where the input was bad or where there was no match for an input request. 
 
 | Test | Inputs | What it checks |
 |---|---|---|
-| `test_delete_transaction_menu_deletes_correct_one` | December, 3, y | The display number deletes the right transaction in the full list |
+| `test_delete_transaction_menu_deletes_correct_index_number` | December, 3, y | The display number deletes the right transaction in the full list |
 | `test_delete_transaction_menu_saves_to_file` | July, 0, y | The deletion is saved to the CSV file |
-| `test_delete_transaction_menu_cancel` | September, 0, n | Nothing deleted, "Deletion cancelled." printed |
+| `test_delete_transaction_menu_bad_input` | September, 0, n | Nothing deleted, "Deletion cancelled." printed |
+| `test_delete_transaction_menu_cancel` |  July, 5, abc, -1| Nothing deleted, "Invalid transaction number " printed for wrong transaction number input and "Please enter a valid number" for letter input |
+| `test_delete_transaction_no_matches` | January | Nothing deleted, "No transactions found for January 2026" printed |
+
+We also tested that the number shown to the user deletes the correct transaction in the full list, that a deletion is saved to the file, and that answering no at the confirmation cancels the deletion. Finally, we tested what happens with bad input and when a month has no transactions.
+
+| Test | Inputs | What it checks |
+|---|---|---|
+| `test_delete_transaction_menu_deletes_correct_index_number` | 2026-12, 3, y | The display number deletes the right transaction in the full list |
+| `test_delete_transaction_menu_saves_to_file` | 2026-07, 0, y | The deletion is saved to the CSV file |
+| `test_delete_transaction_menu_cancel` | 2026-09, 0, n | Nothing deleted, "Deletion cancelled." printed |
+| `test_delete_transaction_menu_bad_input` | 2026-07, 5, abc, -1 | "Invalid transaction number." printed for 5 (out of range), "Please enter a valid number." printed for abc, then -1 cancels and nothing is deleted |
+| `test_delete_transaction_menu_no_matches` | 2026-01 | "No transactions found for January 2026." printed |
 
 ```python
- dummy_inputs(monkeypatch, ["2026-12", "3", "y"])
+ def test_delete_transaction_menu_deletes_correct_one(tracking, monkeypatch):
+    dummy_inputs(monkeypatch, ["2026-12", "3", "y"])
     delete_transaction_menu(tracking)
     dates = [t.date for t in tracking.transactions]
     assert "2026-12-14" not in dates
     assert "2026-12-21" in dates  # the other pharmacy entry is still there
     assert "2026-08-23" in dates  # appliances was not touched
+
+
+def test_delete_transaction_menu_saves_to_file(tracking, monkeypatch):
+    dummy_inputs(monkeypatch, ["2026-07", "0", "y"])
+    delete_transaction_menu(tracking)
+    reloaded = FinanceTracker(filename=tracking.filename)
+    reloaded.load_from_file()
+    assert len(reloaded.transactions) == 31
+
+
+def test_delete_transaction_menu_cancel(tracking, monkeypatch, capsys):
+    dummy_inputs(monkeypatch, ["2026-09", "0", "n"])
+    delete_transaction_menu(tracking)
+    assert len(tracking.transactions) == 32
+    assert "Deletion cancelled." in capsys.readouterr().out
+
+
+def test_delete_transaction_menu_bad_input(tracking, monkeypatch, capsys):
+    dummy_inputs(monkeypatch, ["2026-07", "5", "abc", "-1"])
+    delete_transaction_menu(tracking)
+    out = capsys.readouterr().out
+    assert "Invalid transaction number." in out
+    assert "Please enter a valid number." in out
+    assert len(tracking.transactions) == 32
+
+
+def test_delete_transaction_menu_no_matches(tracking, monkeypatch, capsys):
+    dummy_inputs(monkeypatch, ["2026-01"])
+    delete_transaction_menu(tracking)
+    assert "No transactions found for January 2026." in capsys.readouterr().out
 ```
 
 
