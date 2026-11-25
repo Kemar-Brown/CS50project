@@ -634,9 +634,46 @@ from project import (
 
 We stored a fixed copy of our transaction data in a variable called `SAMPLE_CSV` in the test file instead of using our real `finance_data.csv`. We did this for two reasons. First, the real file changes every time we add or delete a transaction, which would change the totals and make the tests fail even when the code is correct. Second, some of the tests delete transactions, and we did not want the tests to remove our real data. We chose data that spread over several months, included a month over the $100,000 alert limit, and included one day (2026-10-14) with two transactions, so that we could test many different situations.
 
+```
+SAMPLE_CSV = """\
+800.0,food,2026-08-04,nice
+3500.0,stationary,2026-09-10,For school
+60000.0,food,2026-09-01,Food affi eat
+4500.0,physics book,2026-09-12,physics hard
+30000.0,extra classes,2026-09-14,i want my weekends
+16000.0,clothing,2026-09-15,nice shoes!
+14000.0,entertainment,2026-09-17,nice movies
+23500.0,supplies,2026-09-20,project
+800.0,food,2026-10-04,nice
+3500.0,stationary,2026-10-10,For school
+60000.0,food,2026-10-01,Food affi eat
+4500.0,physics book,2026-10-12,physics hard
+30000.0,extra classes,2026-10-14,i want my weekends
+16000.0,clothing,2026-10-15,nice shoes!
+14000.0,entertainment,2026-10-17,nice movies
+23500.0,supplies,2026-10-20,project
+800.0,food,2026-11-04,nice
+3500.0,stationary,2026-11-10,For school
+60000.0,food,2026-11-01,Food affi eat
+4500.0,physics book,2026-11-12,physics hard
+30000.0,extra classes,2026-11-14,i want my weekends
+16000.0,clothing,2026-11-15,nice shoes!
+14000.0,entertainment,2026-12-17,nice movies
+23500.0,supplies,2026-12-20,project
+16000.0,pharmacy,2026-12-21,pills cost
+30000.0,appliances,2026-08-23,need microwave
+16000.0,pharmacy,2026-12-14,pills cost
+1500.0,personal,2026-08-27,Got a trim
+36000.0,food,2026-08-15,supermarket
+8600.0,personal,2026-08-14,Bought a watch
+25000.0,csec fees,2026-10-14,For the boys
+70000.0,rent,2026-07-15,We haffi live somewhere
+"""
+```
+
 ### Simulating user input
 
-Most of our functions use `input()` to ask the user questions, but a test cannot type answers. We wrote a helper function called `fake_inputs` that uses pytest's `monkeypatch` to replace Python's `input()` with our own version for the length of a test. We give it a list of answers, and each time the function asks a question, `next()` hands over the next answer in the list. For example, `["2026-07", "0", "y"]` answers the month, the transaction number and the confirmation in `delete_transaction_menu`.
+Most of our functions use `input()` to ask the user questions, but a test cannot type answers. We wrote a helper function called `dummy_inputs` that uses pytest's `monkeypatch` to replace Python's `input()` with our own version for the length of a test. We give it a list of answers, and each time the function asks a question, `next()` hands over the next answer in the list. For example, `["2026-07", "0", "y"]` answers the month, the transaction number and the confirmation *yes* in `delete_transaction_menu`.
 
 ```python
 def fake_inputs(monkeypatch, answers):
@@ -646,7 +683,7 @@ def fake_inputs(monkeypatch, answers):
 
 ### The tracker fixture
 
-Many of our tests needed the same sample data, so instead of repeating the setup in every test we created a pytest fixture called `tracker`. It uses pytest's `tmp_path` (a temporary folder that is deleted after the test) to write `SAMPLE_CSV` to a test file, creates a `FinanceTracker` that saves to that file, and loads the data using our `load_from_file` method. Any test that has `tracker` in its brackets automatically receives a fresh copy, so a transaction deleted in one test is still there in the next.
+Many of our tests needed the same sample data, so instead of repeating the setup in every test we created a pytest fixture called `tracking`. It uses pytest's `tmp_path` (a temporary folder that is deleted after the test) to write `SAMPLE_CSV` to a test file, creates a `FinanceTracker` that saves to that file, and loads the data using our `load_from_file` method. Any test that has `tracker` in its brackets automatically receives a fresh copy, so a transaction deleted in one test is still there in the next.
 
 ```python
 @pytest.fixture
