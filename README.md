@@ -697,6 +697,7 @@ def tracking(tmp_path):
 
 We also used pytest's `capsys`, which captures everything a function prints. Because our functions print their results rather than returning them, we use `capsys.readouterr().out` to get the printed text and then use `assert` to check that the expected message appears.
 
+## delete_transaction_menu pytest
 
 We know our sample has 32 transactions. Our first test was to check that the sample data had loaded correctly by asserting that the `tracking` fixture has 32 transactions. We then gave the dummy inputs `["2026-07", "0", "y"]` to our code, telling it the month was July 2026, our transaction number was 0, and our answer to whether we wanted to delete it was yes. Note: we did this because July has only one transaction, and it is the only month which has a transaction with the category `rent` in the sample. Then we checked that the number of transactions in the tracker had changed to 31, and we checked that `rent` was no longer in the transaction categories, because if it was still there, the transaction we chose had not been deleted. We also checked that the message `Transaction deleted successfully!` was printed, using `capsys`.
 
@@ -765,6 +766,47 @@ def test_delete_transaction_menu_no_matches(tracking, monkeypatch, capsys):
     assert "No transactions found for January 2026." in capsys.readouterr().out
 ```
 
+## monthly_summary pytest
+
+For this set of pytests I checked that the monthly summary gave the correct total and printout for a specified month; that an alert was shown for a month with spending over the $100,000 limit; that an incorrect month input printed the error message and asked again until a valid month was entered; and that typing "esc" exited the function.
+
+| Test | Inputs | What it checks |
+|---|---|---|
+| `test_monthly_summary` | 2026-08 | "Total spent in August 2026: $76900.00" printed, and no alert because the total is under $100,000 |
+| `test_monthly_summary_alert` | 2026-09 | "Alert: You spent over $100,000 in September 2026!" and "Total spent in September 2026: $151500.00" printed |
+| `test_monthly_summary_bad_month` | 07-2026, 2026-13, 2026-07 | "Invalid month format" printed twice (wrong format, then a month that does not exist), then "Total spent in July 2026: $70000.00" printed |
+| `test_monthly_summary_esc` | esc | The function exits without printing a total |
+
+```python
+def test_monthly_summary(tracking, monkeypatch, capsys):
+    dummy_inputs(monkeypatch, ["2026-08"])
+    monthly_summary(tracking.transactions)
+    out = capsys.readouterr().out
+    assert "Total spent in August 2026: $76900.00" in out
+    assert "Alert" not in out  # under $100,000
 
 
+def test_monthly_summary_alert(tracking, monkeypatch, capsys):
+    # September adds up to 151,500, which is over the 100,000 limit
+    dummy_inputs(monkeypatch, ["2026-09"])
+    monthly_summary(tracking.transactions)
+    out = capsys.readouterr().out
+    assert "Alert: You spent over $100,000 in September 2026!" in out
+    assert "Total spent in September 2026: $151500.00" in out
+
+
+def test_monthly_summary_bad_month(tracking, monkeypatch, capsys):
+    # Two bad entries, then a good one
+    dummy_inputs(monkeypatch, ["07-2026", "2026-13", "2026-07"])
+    monthly_summary(tracking.transactions)
+    out = capsys.readouterr().out
+    assert out.count("Invalid month format") == 2
+    assert "Total spent in July 2026: $70000.00" in out
+
+
+def test_monthly_summary_esc(tracking, monkeypatch, capsys):
+    dummy_inputs(monkeypatch, ["esc"])
+    monthly_summary(tracking.transactions)
+    assert "Total spent" not in capsys.readouterr().out
+```
 
