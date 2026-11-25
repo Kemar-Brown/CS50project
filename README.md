@@ -673,7 +673,7 @@ SAMPLE_CSV = """\
 
 ### Simulating user input
 
-Most of our functions use `input()` to ask the user questions, but a test cannot type answers. We wrote a helper function called `dummy_inputs` that uses pytest's `monkeypatch` to replace Python's `input()` with our own version for the length of a test. We give it a list of answers, and each time the function asks a question, `next()` hands over the next answer in the list. For example, `["2026-07", "0", "y"]` answers the month, the transaction number and the confirmation *yes* in `delete_transaction_menu`.
+Most of our functions use `input()` to ask the user questions, but a test cannot type answers. We wrote a helper function called `dummy_inputs` that uses pytest's `monkeypatch` to replace Python's `input()` with our own version for the length of a test. We give it a list of answers, and each time the function asks a question, `next()` hands over the next answer in the list. For example, `["2026-07", "0", "y"]` answers the month, the transaction number and the confirmation **yes** in `delete_transaction_menu`. If there was a **n** then it would be a **no** for the confirmation. 
 
 ```python
 def fake_inputs(monkeypatch, answers):
@@ -714,17 +714,8 @@ def test_delete_transaction_menu(tracking, monkeypatch, capsys):
     assert all(t.category != "rent" for t in tracking.transactions)
     assert "Transaction deleted successfully!" in capsys.readouterr().out
 ```
-We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancellation was correctly checked. Then we checked for cases where the input was bad or where there was no match for an input request. 
 
-| Test | Inputs | What it checks |
-|---|---|---|
-| `test_delete_transaction_menu_deletes_correct_index_number` | December, 3, y | The display number deletes the right transaction in the full list |
-| `test_delete_transaction_menu_saves_to_file` | July, 0, y | The deletion is saved to the CSV file |
-| `test_delete_transaction_menu_bad_input` | September, 0, n | Nothing deleted, "Deletion cancelled." printed |
-| `test_delete_transaction_menu_cancel` |  July, 5, abc, -1| Nothing deleted, "Invalid transaction number " printed for wrong transaction number input and "Please enter a valid number" for letter input |
-| `test_delete_transaction_no_matches` | January | Nothing deleted, "No transactions found for January 2026" printed |
-
-We also tested that the number shown to the user deletes the correct transaction in the full list, that a deletion is saved to the file, and that answering no at the confirmation cancels the deletion. Finally, we tested what happens with bad input and when a month has no transactions.
+We also tested that the number shown to the user deletes the correct (index number) transaction in the full list, that a deletion is saved to the file, and that answering no at the confirmation cancels the deletion. Finally, we tested what happens with bad input and when a month has no transactions.
 
 | Test | Inputs | What it checks |
 |---|---|---|
