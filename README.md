@@ -714,7 +714,7 @@ def test_delete_transaction_menu(tracking, monkeypatch, capsys):
     assert all(t.category != "rent" for t in tracking.transactions)
     assert "Transaction deleted successfully!" in capsys.readouterr().out
 ```
-We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancelation was correctly checked. 
+We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancellation was correctly checked. 
 
 | Test | Inputs | What it checks |
 |---|---|---|
