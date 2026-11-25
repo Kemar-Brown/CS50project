@@ -683,7 +683,7 @@ def fake_inputs(monkeypatch, answers):
 
 ### The tracker fixture
 
-Many of our tests needed the same sample data, so instead of repeating the setup in every test we created a pytest fixture called `tracking`. It uses pytest's `tmp_path` (a temporary folder that is deleted after the test) to write `SAMPLE_CSV` to a test file, creates a `FinanceTracker` that saves to that file, and loads the data using our `load_from_file` method. Any test that has `tracker` in its brackets automatically receives a fresh copy, so a transaction deleted in one test is still there in the next.
+Many of our tests needed the same sample data, so instead of repeating the setup in every test we created a pytest fixture called `tracking`. It uses pytest's `tmp_path` (a temporary folder that is deleted after the test) to write `SAMPLE_CSV` to a test file, creates a `FinanceTracker` that saves to that file, and loads the data using our `load_from_file` method. Any test that has `tracking` in its brackets automatically receives a fresh copy, so a transaction deleted in one test is still there in the next.
 
 ```python
 @pytest.fixture
@@ -698,13 +698,24 @@ def tracking(tmp_path):
 We also used pytest's `capsys`, which captures everything a function prints. Because our functions print their results rather than returning them, we use `capsys.readouterr().out` to get the printed text and then use `assert` to check that the expected message appears.
 
 
-Our first test was to check if the sample data had loaded. We know in our sample
+We know in our sample had 32 transactions. Our first test was to check if the sample data had loaded correctly by asserting that tracker has 32 transactions. We then gave a dummy input of choice `["2026-07", "0", "y"]` into our code telling it the month was July 2026, our transaction number was 0 and our confirmation whether we wanted to delete it was yes. Note: We did this because July has only one transaction and it is the only month which has the transaction category `rent` in th esample. Then we checked if the length of the csv file was changed to 31 transactions. and we then checked if rent was in the transaction categories because that would mean the wrong transaction had been deleted. We also checked to see if the message `Transaction deleted successfully` was printed with `capsys`
 
 ```python
-def test_sample_data_loaded(tracking):
-    assert len(tracking.transactions) == 32
-```
 
+def test_delete_transaction_menu(tracking, monkeypatch, capsys):
+    # Check the sample data loaded correctly before deleting anything
+    assert len(tracking.transactions) == 32
+
+    # July has one transaction (rent): pick number 0 and confirm with y
+    dummy_inputs(monkeypatch, ["2026-07", "0", "y"])
+    delete_transaction_menu(tracking)
+
+    assert len(tracking.transactions) == 31  # one was deleted
+    assert all(t.category != "rent" for t in tracking.transactions)
+    assert "Transaction deleted successfully!" in capsys.readouterr().out
+```
+dfdf
+dfd
 
 
 
