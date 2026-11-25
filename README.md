@@ -714,11 +714,10 @@ def test_delete_transaction_menu(tracking, monkeypatch, capsys):
     assert all(t.category != "rent" for t in tracking.transactions)
     assert "Transaction deleted successfully!" in capsys.readouterr().out
 ```
-`test_delete_transaction_menu_deletes_correct_one` selects transaction 3 in December 2026, the pharmacy entry on 2026-12-14, and confirms with "y". Because an August transaction sits between the two December pharmacy entries in the full list, this checks that the display number is matched to the correct `real_index`: the test confirms that 2026-12-14 is gone while the other pharmacy entry (2026-12-21) and the August transaction (2026-08-23) remain.
+We also tested to see if there was a correct index display number matching with the index number deleted. We also checked to see if the delete was saved and whether a cancelation was correctly checked. 
 
 | Test | Inputs | What it checks |
 |---|---|---|
-| `test_delete_transaction_menu` | July, 0, y | Data loads (32), one transaction deleted (31), rent gone, success message printed |
 | `test_delete_transaction_menu_deletes_correct_one` | December, 3, y | The display number deletes the right transaction in the full list |
 | `test_delete_transaction_menu_saves_to_file` | July, 0, y | The deletion is saved to the CSV file |
 | `test_delete_transaction_menu_cancel` | September, 0, n | Nothing deleted, "Deletion cancelled." printed |
