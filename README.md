@@ -810,3 +810,6 @@ def test_monthly_summary_esc(tracking, monkeypatch, capsys):
     assert "Total spent" not in capsys.readouterr().out
 ```
 
+## monthly_summary pytest
+
+For this set of pytests I checked that the monthly summary gave the correct total and printout for a specified month; that an alert was shown for a mont
